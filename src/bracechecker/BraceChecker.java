@@ -11,9 +11,6 @@ public class BraceChecker {
     private Stack<BracketItem> stack;
     private String resultMessage;
 
-    /**
-     *
-     */
     public BraceChecker() {
         stack = new StackImpl<>();
         resultMessage = DEFAULT_MESSAGE;
