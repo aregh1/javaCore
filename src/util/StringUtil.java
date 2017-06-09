@@ -25,15 +25,15 @@ public class StringUtil {
         for (int i = 0; i < inputText.length(); i++) {
             if (inputText.charAt(i) == delimiter) {
                 String thePieces = new String();
-                StringUtil.subString(inputText,j+1,i);
-                thePieces = StringUtil.subString(inputText,j+1,i);
+                StringUtil.subString(inputText, j + 1, i);
+                thePieces = StringUtil.subString(inputText, j + 1, i);
                 j = i;
                 dividedWords[k++] = thePieces;
             }
 
         }
-        dividedWords[lastPiece] =StringUtil.subString(inputText,j+1,inputText.length());
-        dividedWords[0] =StringUtil.subString(inputText,0,inputText.indexOf(delimiter));
+        dividedWords[lastPiece] = StringUtil.subString(inputText, j + 1, inputText.length());
+        dividedWords[0] = StringUtil.subString(inputText, 0, inputText.indexOf(delimiter));
         return dividedWords;
     }
 
@@ -60,7 +60,7 @@ public class StringUtil {
      */
     static public String subString(String inputText, int startIndex, int endIndex) {
         char[] inputTextChar = new char[inputText.length()];
-        for (int i = 0; i < inputText.length() ; i++) {
+        for (int i = 0; i < inputText.length(); i++) {
             inputTextChar[i] = inputText.charAt(i);
 
         }
@@ -90,15 +90,15 @@ public class StringUtil {
     public static String trim(String str) {
         int l = 0;
         char[] strChar = new char[str.length()];
-        for (int i = 0; i < str.length() ; i++) {
+        for (int i = 0; i < str.length(); i++) {
             strChar[i] = str.charAt(i);
         }
         a:
-        for (int i = 0; i < str.length() ; i++) {
-            if(str.charAt(i) != ' ' ){
-                for (int j = str.length() - 1; j >= 0 ; j--) {
-                    if(str.charAt(j) != ' '){
-                        for (int k = i; k <= j ; k++) {
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) != ' ') {
+                for (int j = str.length() - 1; j >= 0; j--) {
+                    if (str.charAt(j) != ' ') {
+                        for (int k = i; k <= j; k++) {
                             strChar[l++] = str.charAt(k);
                         }
                         break a;
@@ -107,7 +107,7 @@ public class StringUtil {
             }
 
         }
-        String trim =new String(strChar);
+        String trim = new String(strChar);
         return trim;
     }
 
@@ -127,14 +127,39 @@ public class StringUtil {
     }
 
     public static String toLowerCase(String text) {
-        return text.toLowerCase();
+        char[] textChar = new char[text.length()];
+        for (int i = 0; i < text.length(); i++) {
+            textChar[i] = text.charAt(i);
+            if (1 == (((int) (textChar[i]) >> 6) ^ 1)) {
+                textChar[i] = (char) (text.charAt(i) + 32);
+            }
+        }
+        String toLowerCase = new String(textChar);
+        return toLowerCase;
     }
 
     public static String toUpperCase(String text) {
-        return text.toUpperCase();
+        char[] textChar = new char[text.length()];
+        for (int i = 0; i < text.length(); i++) {
+            textChar[i] = text.charAt(i);
+            if (((textChar[i] >> 6) ^ 0) == 1) {
+                textChar[i] = (char) (text.charAt(i) - 32);
+            }
+        }
+        String toUpperCase = new String(textChar);
+        return toUpperCase;
     }
 
-    private static String changeCase(String text, char startIndex, char endIndex) {
-        return null;
+    private static String changeCase(String text, int startIndex, int endIndex) {
+        char[] textChar = new char[text.length()];
+        for (int i = 0; i < text.length(); i++) {
+            if (((textChar[i] >> 6) ^ 1) == 1) {
+                textChar[i] = (char) (text.charAt(i) + 32);
+            } else if (((textChar[i] >> 6) ^ 0) == 1) {
+                textChar[i] = (char) (text.charAt(i) - 32);
+            }
+        }
+        String changeCase = new String(textChar);
+        return changeCase;
     }
 }
