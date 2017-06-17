@@ -12,29 +12,47 @@ public class StringUtil {
      * around matches of the given regular expression.
      */
     public static String[] split(String inputText, char delimiter) {
-        int count = 0;
-        int j = 0;
-        int k = 0;
+        int startIndex = 0;
+        int currentPieceIndex = 0;
+        int countOfWords = calculateWordsCount(inputText, delimiter);
+        String[] dividedWords = new String[countOfWords];
         for (int i = 0; i < inputText.length(); i++) {
             if (inputText.charAt(i) == delimiter) {
+                dividedWords[currentPieceIndex++] = StringUtil.subString(inputText, startIndex, i);
+                startIndex = skipDelimiters(inputText, i, delimiter);
+                if (startIndex >= inputText.length()) {
+                    break;
+                }
+            }
+        }
+
+        if (startIndex < inputText.length() - 1) {
+            dividedWords[currentPieceIndex] = StringUtil.subString(inputText, startIndex, inputText.length());
+        }
+        return dividedWords;
+    }
+
+    private static int calculateWordsCount(String text, char delimiter) {
+        int count = 0;
+        char prev = 0;
+        for (int i = 0; i < text.length(); i++) {
+            if (text.charAt(i) == delimiter && prev != delimiter) {
                 count++;
             }
+            prev = text.charAt(i);
         }
-        int lastPiece = count;
-        String[] dividedWords = new String[count + 1];
-        for (int i = 0; i < inputText.length(); i++) {
-            if (inputText.charAt(i) == delimiter) {
-                String thePieces = new String();
-                StringUtil.subString(inputText, j + 1, i);
-                thePieces = StringUtil.subString(inputText, j + 1, i);
-                j = i;
-                dividedWords[k++] = thePieces;
-            }
+        return count;
+    }
 
+    private static int skipDelimiters(String txt, int startIndex, char delimiter) {
+        if (++startIndex >= txt.length()) return startIndex;
+        while (txt.charAt(startIndex) == delimiter) {
+            if (++startIndex >= txt.length()) {
+
+                return startIndex;
+            }
         }
-        dividedWords[lastPiece] = StringUtil.subString(inputText, j + 1, inputText.length());
-        dividedWords[0] = StringUtil.subString(inputText, 0, inputText.indexOf(delimiter));
-        return dividedWords;
+        return startIndex;
     }
 
     /**
@@ -129,37 +147,29 @@ public class StringUtil {
     public static String toLowerCase(String text) {
         char[] textChar = new char[text.length()];
         for (int i = 0; i < text.length(); i++) {
-            textChar[i] = text.charAt(i);
-            if (1 == (((int) (textChar[i]) >> 6) ^ 1)) {
-                textChar[i] = (char) (text.charAt(i) + 32);
-            }
+            char ch = text.charAt(i);
+            textChar[i] = ch <= 'Z' ? (char) (ch ^ 32) : ch;
         }
-        String toLowerCase = new String(textChar);
-        return toLowerCase;
+        return new String(textChar);
     }
 
     public static String toUpperCase(String text) {
         char[] textChar = new char[text.length()];
         for (int i = 0; i < text.length(); i++) {
-            textChar[i] = text.charAt(i);
-            if (((textChar[i] >> 6) ^ 0) == 1) {
-                textChar[i] = (char) (text.charAt(i) - 32);
-            }
+            char ch = text.charAt(i);
+            textChar[i] = ch >= 'a' ? (char) (ch ^ 32) : ch;
         }
-        String toUpperCase = new String(textChar);
-        return toUpperCase;
+        return new String(textChar);
     }
 
-    private static String changeCase(String text, int startIndex, int endIndex) {
+    static String changeCase(String text, int startIndex, int endIndex) {
         char[] textChar = new char[text.length()];
         for (int i = 0; i < text.length(); i++) {
-            if (((textChar[i] >> 6) ^ 1) == 1) {
-                textChar[i] = (char) (text.charAt(i) + 32);
-            } else if (((textChar[i] >> 6) ^ 0) == 1) {
-                textChar[i] = (char) (text.charAt(i) - 32);
+            char ch = text.charAt(i);
+            for (int j = startIndex; j < endIndex; j++) {
+                textChar[i] = (char) (ch ^ 32);
             }
         }
-        String changeCase = new String(textChar);
-        return changeCase;
+        return new String(textChar);
     }
 }
