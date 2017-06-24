@@ -32,6 +32,22 @@ public class FigureFrame extends JFrame {
                 removeActionHandler(e);
             }
         });
+        JButton startButton = new JButton("Start");
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startActionHandler(e);
+            }
+        });
+        JButton stopButton = new JButton("Stop");
+        stopButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                stopActionHandler();
+            }
+        });
+        controlPanel.add(startButton);
+        controlPanel.add(stopButton);
         controlPanel.add(addButton);
         controlPanel.add(removeButton);
 
@@ -43,23 +59,25 @@ public class FigureFrame extends JFrame {
         setSize(400, 400);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
-
-
     }
 
     private void addActionHandler(ActionEvent e) {
-//        JOptionPane.showMessageDialog(this, "Say Hey");
         canvas.addFigure(new Rectangle(30, 30, 50, 40));
-        canvas.addFigure(new Circle(30, 30, 40));
     }
 
     private void removeActionHandler(ActionEvent e) {
-//        JOptionPane.showMessageDialog(this, "Say Hey-Hey");
         canvas.removeFigure();
+    }
+
+    private void startActionHandler(ActionEvent e) {
+        canvas.start();
+    }
+
+    private void stopActionHandler() {
+        canvas.stop();
     }
 
     public static void main(String[] args) {
         new FigureFrame();
     }
-
 }

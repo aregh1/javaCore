@@ -5,12 +5,14 @@ import java.awt.*;
 /**
  * Created by Areg on 3/25/2017.
  */
-public abstract class Figure {
+public abstract class Figure implements Runnable {
     private int x;
     private int y;
     private int width;
     private int height;
     private Color color;
+    private Thread t;
+    private volatile boolean isRunning = true;
 
     public Color getColor() {
         return color;
@@ -60,11 +62,29 @@ public abstract class Figure {
         this.height = height;
     }
 
-    public void move(int dx, int dy){
+    public void move(int dx, int dy) {
         this.x = x + dx;
         this.y = y + dy;
     }
 
+    @Override
+    public void run() {
+        setX(400);
+        setY(400);
+    }
+
+    public void start(Figure f) {
+        while (isRunning) {
+            t = new Thread(f);
+            t.start();
+        }
+    }
+
+    public void stop(Figure f) {
+        isRunning = false;
+    }
+
     public abstract void draw(Graphics g);
+
     public abstract boolean isBelong(int x, int y);
 }

@@ -63,3 +63,4 @@ class B {
         System.out.println("Inside B.last");
     }
 }
+

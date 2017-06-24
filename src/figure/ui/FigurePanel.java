@@ -17,7 +17,7 @@ public class FigurePanel extends JPanel {
     private boolean isSelected;
     private int mX;
     private int mY;
-
+    private Thread t;
 
     public void addFigure(Figure figure) {
         if (figure == null) {
@@ -27,9 +27,9 @@ public class FigurePanel extends JPanel {
         repaint();
     }
 
-    public void removeFigure(){
-        if(isSelected){
-           figures.remove(getSelected());
+    public void removeFigure() {
+        if (isSelected) {
+            figures.remove(getSelected());
         }
         isSelected = false;
         repaint();
@@ -116,7 +116,6 @@ public class FigurePanel extends JPanel {
         isSelected = false;
     }
 
-
     @Override
     public void paint(Graphics g) {
         g.clearRect(0, 0, 1000, 1000);
@@ -124,5 +123,19 @@ public class FigurePanel extends JPanel {
             figure.draw(g);
         }
 
+    }
+
+    public void start() {
+        if (isSelected) {
+            getSelected().start(getSelected());
+        }
+        repaint();
+    }
+
+    public void stop() {
+        if (isSelected) {
+            getSelected().stop(getSelected());
+        }
+        repaint();
     }
 }

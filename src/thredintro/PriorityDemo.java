@@ -47,7 +47,6 @@ class Clicker implements Runnable {
 
 	@Override
 	public void run() {
-
 		while (isRunning) {
 			clickCount++;
 		}

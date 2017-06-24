@@ -9,7 +9,8 @@ public class StaticNonStaticSync {
 		Sync sync2 = new Sync(Sync.Mode.SECOND, obj);
 		Sync sync3 = new Sync(Sync.Mode.THIRD , obj);
 		Sync sync4 = new Sync(Sync.Mode.FORTH , null);
-
+		Thread.sleep(10);
+		sync3.nonStatM();
 		sync1.t.join();
 		sync2.t.join();
 		sync3.t.join();
