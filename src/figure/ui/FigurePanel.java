@@ -27,6 +27,7 @@ public class FigurePanel extends JPanel {
         repaint();
     }
 
+
     public void removeFigure() {
         if (isSelected) {
             figures.remove(getSelected());
@@ -118,7 +119,7 @@ public class FigurePanel extends JPanel {
 
     @Override
     public void paint(Graphics g) {
-        g.clearRect(0, 0, 1000, 1000);
+        g.clearRect(0, 0, getWidth(),getHeight());
         for (Figure figure : figures) {
             figure.draw(g);
         }
@@ -127,14 +128,14 @@ public class FigurePanel extends JPanel {
 
     public void start() {
         if (isSelected) {
-            getSelected().start(getSelected());
+            getSelected().start();
         }
-        repaint();
+
     }
 
     public void stop() {
         if (isSelected) {
-            getSelected().stop(getSelected());
+            getSelected().stop();
         }
         repaint();
     }

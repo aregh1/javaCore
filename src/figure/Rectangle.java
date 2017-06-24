@@ -1,5 +1,7 @@
 package figure;
 
+import figure.ui.FigurePanel;
+
 import java.awt.*;
 
 /**
@@ -8,12 +10,12 @@ import java.awt.*;
 public class Rectangle extends Figure {
     static final Color DEFUALT_COLOR = Color.BLUE;
 
-    public Rectangle(int x, int y, int width, int height) {
-        this(x, y, width, height, DEFUALT_COLOR);
+    public Rectangle(int x, int y, int width, int height, FigurePanel canvas) {
+        this(x, y, width, height, canvas, DEFUALT_COLOR);
     }
 
-    public Rectangle(int x, int y, int width, int height, Color color) {
-        super(x, y, width, height, color);
+    public Rectangle(int x, int y, int width, int height, FigurePanel canvas, Color color) {
+        super(x, y, width, height, canvas, color);
     }
 
     public void draw(Graphics g) {

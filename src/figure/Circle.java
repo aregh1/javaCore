@@ -1,5 +1,7 @@
 package figure;
 
+import figure.ui.FigurePanel;
+
 import java.awt.*;
 
 /**
@@ -8,12 +10,12 @@ import java.awt.*;
 public class Circle extends Figure {
     public static final Color DEFAULT_COLOR = Color.YELLOW;
 
-    public Circle(int x, int y, int diagonal) {
-        this(x, y, diagonal, DEFAULT_COLOR);
+    public Circle(int x, int y, int diagonal, FigurePanel canvas) {
+        this(x, y, diagonal, canvas, DEFAULT_COLOR);
     }
 
-    public Circle(int x, int y, int diagonal, Color color) {
-        super(x, y, diagonal, diagonal, color);
+    public Circle(int x, int y, int diagonal, FigurePanel canvas, Color color) {
+        super(x, y, diagonal, diagonal, canvas, color);
     }
 
     @Override

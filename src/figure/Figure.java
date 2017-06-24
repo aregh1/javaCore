@@ -1,5 +1,8 @@
 package figure;
 
+import figure.ui.FigurePanel;
+import sun.awt.SunToolkit;
+
 import java.awt.*;
 
 /**
@@ -11,8 +14,13 @@ public abstract class Figure implements Runnable {
     private int width;
     private int height;
     private Color color;
+    private FigurePanel canvas;
+
     private Thread t;
-    private volatile boolean isRunning = true;
+    private volatile boolean isRunning = false;
+
+    private int dX;
+    private int dY;
 
     public Color getColor() {
         return color;
@@ -22,7 +30,13 @@ public abstract class Figure implements Runnable {
         this.color = color;
     }
 
-    public Figure(int x, int y, int width, int height, Color color) {
+    public FigurePanel getCanvas() {
+        return canvas;
+    }
+
+    public Figure(int x, int y, int width, int height, FigurePanel canvas, Color color) {
+        this.canvas = canvas;
+
         this.x = x;
         this.y = y;
         this.width = width;
@@ -69,18 +83,44 @@ public abstract class Figure implements Runnable {
 
     @Override
     public void run() {
-        setX(400);
-        setY(400);
-    }
-
-    public void start(Figure f) {
         while (isRunning) {
-            t = new Thread(f);
-            t.start();
+            move(dX, dY);
+            canvas.repaint();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
-    public void stop(Figure f) {
+    public void checkDirection() {
+
+    }
+
+    public void start() {
+        if (t != null) {
+            try {
+                stop();
+                t.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            isRunning = true;
+            dX = 3;
+            dY = 3;
+            t = new Thread(this);
+            t.start();
+        } catch (IllegalThreadStateException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void stop() {
         isRunning = false;
     }
 

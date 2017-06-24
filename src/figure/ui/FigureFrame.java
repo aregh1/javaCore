@@ -62,7 +62,7 @@ public class FigureFrame extends JFrame {
     }
 
     private void addActionHandler(ActionEvent e) {
-        canvas.addFigure(new Rectangle(30, 30, 50, 40));
+        canvas.addFigure(new Rectangle(30, 30, 50, 40, canvas));
     }
 
     private void removeActionHandler(ActionEvent e) {
