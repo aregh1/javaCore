@@ -130,7 +130,18 @@ public class FigurePanel extends JPanel {
         if (isSelected) {
             getSelected().start();
         }
+    }
 
+    public void pause(){
+        if (isSelected) {
+            getSelected().pause();
+        }
+    }
+
+    public void resume(){
+        if (isSelected) {
+            getSelected().resume();
+        }
     }
 
     public void stop() {

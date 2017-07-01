@@ -15,6 +15,7 @@ public abstract class Figure implements Runnable {
     private int height;
     private Color color;
     private FigurePanel canvas;
+    private boolean isPaused;
 
     private Thread t;
     private volatile boolean isRunning = false;
@@ -36,7 +37,6 @@ public abstract class Figure implements Runnable {
 
     public Figure(int x, int y, int width, int height, FigurePanel canvas, Color color) {
         this.canvas = canvas;
-
         this.x = x;
         this.y = y;
         this.width = width;
@@ -82,21 +82,50 @@ public abstract class Figure implements Runnable {
     }
 
     @Override
-    public void run() {
+     public void run() {
         while (isRunning) {
-            move(dX, dY);
-            canvas.repaint();
             try {
+                if(isPaused){
+                    synchronized (this){
+                        wait();
+                    }
+                }
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            checkDirection();
+            move(dX, dY);
+            canvas.repaint();
         }
 
     }
 
-    public void checkDirection() {
+    private void checkDirection() {
+        if (x <= canvas.getX()) {
+            if (dX < 0) {
+                dX = -dX;
+            }
+        } else if (x + getWidth() >= canvas.getX() + canvas.getWidth()) {
+            if (dX > 0) {
+                dX = -dX;
+            }
+        } else if (y <= 0) {
+            if (dY < 0) {
+                dY = -dY;
+            }
+        } else if (y + getHeight() >= canvas.getHeight()) {
+            if (dY > 0) {
+                dY = -dY;
+            }
+        }
 
+    }
+     synchronized public void resume(){
+        if(isPaused){
+            notify();
+        }
+        isPaused = false;
     }
 
     public void start() {
@@ -120,7 +149,15 @@ public abstract class Figure implements Runnable {
 
     }
 
+    public void pause() {
+        if (this.isRunning) {
+            isPaused = true;
+        }
+    }
+
+
     public void stop() {
+         resume();
         isRunning = false;
     }
 

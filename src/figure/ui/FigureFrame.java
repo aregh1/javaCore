@@ -18,6 +18,20 @@ public class FigureFrame extends JFrame {
         canvas = new FigurePanel();
 
         JPanel controlPanel = new JPanel();
+        JButton resumeButton = new JButton("Resume");
+        resumeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resumeActionHandler(e);
+            }
+        });
+        JButton pauseButton = new JButton("Pause");
+        pauseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pauseActionHandler(e);
+            }
+        });
         JButton addButton = new JButton("Add");
         addButton.addActionListener(new ActionListener() {
             @Override
@@ -47,6 +61,8 @@ public class FigureFrame extends JFrame {
             }
         });
         controlPanel.add(startButton);
+        controlPanel.add(pauseButton);
+        controlPanel.add(resumeButton);
         controlPanel.add(stopButton);
         controlPanel.add(addButton);
         controlPanel.add(removeButton);
@@ -61,8 +77,16 @@ public class FigureFrame extends JFrame {
         setVisible(true);
     }
 
+    private void resumeActionHandler(ActionEvent e) {
+        canvas.resume();
+    }
+
+    private void pauseActionHandler(ActionEvent e) {
+        canvas.pause();
+    }
+
     private void addActionHandler(ActionEvent e) {
-        canvas.addFigure(new Rectangle(30, 30, 50, 40, canvas));
+        canvas.addFigure(new Rectangle(30, 30, 30, 40, canvas));
     }
 
     private void removeActionHandler(ActionEvent e) {

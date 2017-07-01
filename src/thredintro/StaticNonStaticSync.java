@@ -106,16 +106,3 @@ class Sync implements Runnable {
 	}
 }
 
-class EnumImitation {
-	public static final EnumImitation FIRST  =  new EnumImitation("First");
-	public static final EnumImitation SECOND =  new EnumImitation("Second");
-	public static final EnumImitation THIRD  =  new EnumImitation("Third");
-	public static final EnumImitation FORTH  =  new EnumImitation("Forth");
-
-
-	private EnumImitation(String name){
-		this.name = name;
-	}
-
-	private String name;
-}
