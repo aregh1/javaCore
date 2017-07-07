@@ -98,7 +98,6 @@ public abstract class Figure implements Runnable {
             move(dX, dY);
             canvas.repaint();
         }
-
     }
 
     private void checkDirection() {
@@ -119,8 +118,8 @@ public abstract class Figure implements Runnable {
                 dY = -dY;
             }
         }
-
     }
+
      synchronized public void resume(){
         if(isPaused){
             notify();
