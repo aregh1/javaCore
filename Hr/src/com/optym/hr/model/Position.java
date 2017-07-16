@@ -4,16 +4,10 @@ package com.optym.hr.model;
  * Created by Areg on 7/2/2017.
  */
 public class Position {
-    private int id;
     private String name;
+    private String createdDate;
+    private int createdBy;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -38,7 +32,4 @@ public class Position {
     public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
     }
-
-    private String createdDate;
-    private int createdBy;
 }

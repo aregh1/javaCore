@@ -17,7 +17,6 @@ public class FigurePanel extends JPanel {
     private boolean isSelected;
     private int mX;
     private int mY;
-    private Thread t;
 
     public void addFigure(Figure figure) {
         if (figure == null) {
@@ -119,7 +118,7 @@ public class FigurePanel extends JPanel {
 
     @Override
     public void paint(Graphics g) {
-        g.clearRect(0, 0, getWidth(),getHeight());
+        g.clearRect(0,0,this.getWidth(),this.getHeight());
         for (Figure figure : figures) {
             figure.draw(g);
         }

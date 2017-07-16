@@ -5,8 +5,8 @@ package com.optym.hr.model;
  */
 public class ScheduleInterviewer {
     private int id;
-    private int employee_Id;
-    private int schedule_Id;
+    private Employee employee;
+    private Schedule schedule;
     private int createdBy;
     private String status;
     private String createdDate;
@@ -19,20 +19,20 @@ public class ScheduleInterviewer {
         this.id = id;
     }
 
-    public int getEmployee_Id() {
-        return employee_Id;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmployee_Id(int employee_Id) {
-        this.employee_Id = employee_Id;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
-    public int getSchedule_Id() {
-        return schedule_Id;
+    public Schedule getSchedule() {
+        return schedule;
     }
 
-    public void setSchedule_Id(int schedule_Id) {
-        this.schedule_Id = schedule_Id;
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
     }
 
     public String getStatus() {

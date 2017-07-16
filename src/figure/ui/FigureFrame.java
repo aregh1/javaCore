@@ -57,7 +57,7 @@ public class FigureFrame extends JFrame {
         stopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                stopActionHandler();
+                stopActionHandler(e);
             }
         });
         controlPanel.add(startButton);
@@ -97,7 +97,7 @@ public class FigureFrame extends JFrame {
         canvas.start();
     }
 
-    private void stopActionHandler() {
+    private void stopActionHandler(ActionEvent e) {
         canvas.stop();
     }
 

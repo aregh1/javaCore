@@ -6,26 +6,18 @@ import java.util.Date;
  * Created by Areg on 7/2/2017.
  */
 public class Schedule {
-    private int id;
     private Date meetingDate;
     private String type;
     private String isCanceled;
     private String notes;
-    private String candidate_Id;
-    private String employee_Id;
+    private Candidate candidate;
+    private Employee employee;
     private Date cratedDate;
     private int createdBy;
     private Date modifiedDate;
     private int modifiedBy;
     private int position_Id;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Date getMeetingDate() {
         return meetingDate;
@@ -59,22 +51,6 @@ public class Schedule {
         this.notes = notes;
     }
 
-    public String getCandidate_Id() {
-        return candidate_Id;
-    }
-
-    public void setCandidate_Id(String candidate_Id) {
-        this.candidate_Id = candidate_Id;
-    }
-
-    public String getEmployee_Id() {
-        return employee_Id;
-    }
-
-    public void setEmployee_Id(String employee_Id) {
-        this.employee_Id = employee_Id;
-    }
-
     public Date getCratedDate() {
         return cratedDate;
     }
@@ -93,6 +69,22 @@ public class Schedule {
 
     public int getCreatedBy() {
         return createdBy;
+    }
+
+    public Candidate getCandidate() {
+        return candidate;
+    }
+
+    public void setCandidate(Candidate candidate) {
+        this.candidate = candidate;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public void setCreatedBy(int createdBy) {

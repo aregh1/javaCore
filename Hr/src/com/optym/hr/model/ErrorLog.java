@@ -4,18 +4,10 @@ package com.optym.hr.model;
  * Created by Areg on 7/2/2017.
  */
 public class ErrorLog {
-    private int id;
     private  int number;
     private String procedure;
     private String massage;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    private  String createdDate;
 
     public int getNumber() {
         return number;
@@ -48,6 +40,4 @@ public class ErrorLog {
     public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
-
-    private  String createdDate;
 }

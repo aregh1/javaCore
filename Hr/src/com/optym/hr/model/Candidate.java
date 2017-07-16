@@ -4,7 +4,6 @@ package com.optym.hr.model;
  * Created by Areg on 7/2/2017.
  */
 public class Candidate {
-    private int id;
     private String firstName;
     private String lastName;
     private String gender;
@@ -19,6 +18,7 @@ public class Candidate {
     private int createdBy;
     private String modifiedDate;
     private int modifiedBy;
+    private String appliedPosition;
 
     public String getAppliedPosition() {
         return appliedPosition;
@@ -27,17 +27,6 @@ public class Candidate {
     public void setAppliedPosition(String appliedPosition) {
         this.appliedPosition = appliedPosition;
     }
-
-    private String appliedPosition;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getFirstName() {
         return firstName;
     }

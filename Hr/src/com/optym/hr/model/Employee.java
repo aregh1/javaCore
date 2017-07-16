@@ -4,17 +4,13 @@ package com.optym.hr.model;
  * Created by Areg on 7/2/2017.
  */
 public class Employee {
-    private int id;
     private String username;
+    private String firstName;
+    private  String lastName;
+    private  String role;
+    private  String createdDate;
+    private  int createdBy;
     private String passwordHash;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;
@@ -71,10 +67,4 @@ public class Employee {
     public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
     }
-
-    private String firstName;
-    private  String lastName;
-    private  String role;
-    private  String createdDate;
-    private  int createdBy;
 }
