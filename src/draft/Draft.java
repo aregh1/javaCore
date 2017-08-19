@@ -3,8 +3,12 @@ package draft;
 import util.ArrayUtil;
 
 public class Draft {
+
     public static void main(String[] args) {
-        varargs();
+        int a = 511 ;
+        byte c ;
+        c = (byte) a;
+        System.out.println(c);
     }
 
     static void varargs(int ... v){
@@ -16,6 +20,8 @@ public class Draft {
     }
 
     static int[] reversee(int[] array) {
+
+
         int lenght = array.length;
         int lastIndex = array.length - 1;
         int b;

@@ -16,10 +16,8 @@ public abstract class Figure implements Runnable {
     private Color color;
     private FigurePanel canvas;
     private volatile boolean isPaused;
-
     private Thread t;
     private volatile boolean isRunning = false;
-
     private int dX;
     private int dY;
 
