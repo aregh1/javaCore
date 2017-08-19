@@ -1,7 +1,6 @@
 package notepad;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,14 +9,14 @@ import java.awt.event.ActionListener;
  * Created by Areg on 8/18/2017.
  */
 public class NotepadFrame extends JFrame {
-    JTextArea text;
-    NotepadPanel controlPanel;
+    private JTextArea textArea;
+    private NotepadPanel controlPanel;
 
     private NotepadFrame() {
         controlPanel = new NotepadPanel();
         setTitle("Notepad");
-        text = new JTextArea();
-        add(text);
+        textArea = new JTextArea();
+        add(textArea);
         MenuBar menuBar = new MenuBar();
         Menu file = new Menu("File");
         menuBar.add(file);
@@ -61,7 +60,7 @@ public class NotepadFrame extends JFrame {
         exitMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (text.getText() == "") {
+                if (textArea.getText() == "") {
                     System.exit(0);
                 } else {
 //                    saveActionHandler();
@@ -75,6 +74,7 @@ public class NotepadFrame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
     }
+    private void saveActionHandler(ActionEvent event) {}
 
     private void saveAsActionHandler(ActionEvent event) {
         JFrame frame = new JFrame();
@@ -87,7 +87,7 @@ public class NotepadFrame extends JFrame {
         saveAs.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controlPanel.saveAs(pathField.getText(),text.getText());
+                controlPanel.saveAs(pathField.getText(), textArea.getText());
             }
         });
         frame.setLocation(500, 500);
@@ -108,7 +108,7 @@ public class NotepadFrame extends JFrame {
         open.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                text.setText(controlPanel.open(pathField.getText()));
+                textArea.setText(controlPanel.open(pathField.getText()));
             }
         });
         frame.setLocation(500, 500);
