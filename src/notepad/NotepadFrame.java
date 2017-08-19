@@ -18,18 +18,18 @@ public class NotepadFrame extends JFrame {
         textArea = new JTextArea();
         add(textArea);
         MenuBar menuBar = new MenuBar();
-        Menu filemenu = new Menu("File");
-        menuBar.add(filemenu);
+        Menu fileMenu = new Menu("File");
+        menuBar.add(fileMenu);
         MenuItem newMenu = new MenuItem("New");
         MenuItem openMenu = new MenuItem("Open");
         MenuItem saveMenu = new MenuItem("Save");
         MenuItem saveAsMenu = new MenuItem("Save As");
         MenuItem exitMenu = new MenuItem("Exit");
-        filemenu.add(newMenu);
-        filemenu.add(openMenu);
-        filemenu.add(saveMenu);
-        filemenu.add(saveAsMenu);
-        filemenu.add(exitMenu);
+        fileMenu.add(newMenu);
+        fileMenu.add(openMenu);
+        fileMenu.add(saveMenu);
+        fileMenu.add(saveAsMenu);
+        fileMenu.add(exitMenu);
 
         setMenuBar(menuBar);
 
