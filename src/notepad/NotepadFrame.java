@@ -10,28 +10,31 @@ import java.awt.event.ActionListener;
  */
 public class NotepadFrame extends JFrame {
     private JTextArea textArea;
-    private NotepadPanel controlPanel;
+
 
     private NotepadFrame() {
-        controlPanel = new NotepadPanel();
+
         setTitle("Notepad");
         textArea = new JTextArea();
-        add(textArea);
-        MenuBar menuBar = new MenuBar();
-        Menu fileMenu = new Menu("File");
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.getViewport().add(textArea);
+
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
         menuBar.add(fileMenu);
-        MenuItem newMenu = new MenuItem("New");
-        MenuItem openMenu = new MenuItem("Open");
-        MenuItem saveMenu = new MenuItem("Save");
-        MenuItem saveAsMenu = new MenuItem("Save As");
-        MenuItem exitMenu = new MenuItem("Exit");
+        JMenuItem newMenu = new   JMenuItem("New");
+        JMenuItem openMenu = new  JMenuItem("Open");
+        JMenuItem saveMenu = new  JMenuItem("Save");
+        JMenuItem saveAsMenu =new JMenuItem("Save As");
+        JMenuItem exitMenu = new  JMenuItem("Exit");
         fileMenu.add(newMenu);
         fileMenu.add(openMenu);
         fileMenu.add(saveMenu);
         fileMenu.add(saveAsMenu);
         fileMenu.add(exitMenu);
 
-        setMenuBar(menuBar);
+
+
 
         newMenu.addActionListener(new ActionListener() {
             @Override
@@ -68,8 +71,10 @@ public class NotepadFrame extends JFrame {
             }
         });
 
+        add(scrollPane, BorderLayout.CENTER);
+        add(menuBar, BorderLayout.NORTH);
 
-        setLocation(-7, 0);
+        setLocation(0, 0);
         setSize(400, 400);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);

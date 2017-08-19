@@ -1,6 +1,5 @@
 package notepad;
 
-import java.awt.*;
 import java.io.*;
 
 /**
