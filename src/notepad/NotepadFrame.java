@@ -92,7 +92,7 @@ public class NotepadFrame extends JFrame {
         saveAs.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controlPanel.saveAs(pathField.getText(), textArea.getText());
+//                controlPanel.saveAs(pathField.getText(), textArea.getText());
             }
         });
         frame.setLocation(500, 500);
@@ -113,7 +113,7 @@ public class NotepadFrame extends JFrame {
         open.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                textArea.setText(controlPanel.open(pathField.getText()));
+//                textArea.setText(controlPanel.open(pathField.getText()));
             }
         });
         frame.setLocation(500, 500);
