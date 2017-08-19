@@ -1,10 +1,10 @@
 package notepad;
 
 
-        import javax.swing.*;
-        import java.awt.*;
-        import java.awt.event.*;
-        import java.io.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
 
 /**
  * Created by Areg on 8/18/2017.
@@ -12,9 +12,7 @@ package notepad;
 public class Notepad extends JFrame {
     private JTextArea textArea;
 
-
     private Notepad() {
-
         setTitle("Notepad");
         textArea = new JTextArea();
         JScrollPane scrollPane = new JScrollPane();
@@ -83,60 +81,23 @@ public class Notepad extends JFrame {
     }
 
     private void saveAsActionHandler(ActionEvent event) {
-        //		JFrame frame = new JFrame();
-        //		JPanel panel = new JPanel();
-        //		frame.add(panel, BorderLayout.CENTER);
-        //		JButton saveAs = new JButton("Save As");
-        //		JTextField pathField = new JTextField("Pathname");
-        //		panel.add(saveAs, BorderLayout.CENTER);
-        //		frame.add(pathField, BorderLayout.NORTH);
-        //		saveAs.addActionListener(new ActionListener() {
-        //			@Override
-        //			public void actionPerformed(ActionEvent e) {
-        //				//                controlPanel.saveAs(pathField.getText(), textArea.getText());
-        //			}
-        //		});
-        //		frame.setLocation(500, 500);
-        //		frame.setSize(400, 150);
-        //		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        //		frame.setVisible(true);
-
-
+        JFileChooser jSaveFileChooser = new JFileChooser();
+        jSaveFileChooser.setCurrentDirectory(new File("."));
+        int result = jSaveFileChooser.showSaveDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File saveFile = jSaveFileChooser.getSelectedFile();
+            saveAs(saveFile.getPath(), textArea.getText());
+        }
     }
 
     private void openActionHandler(ActionEvent e) {
-        //		JFrame frame = new JFrame();
-        //		JPanel panel = new JPanel();
-        //		frame.add(panel, BorderLayout.CENTER);
-        //		JButton open = new JButton("Open");
-        //		JTextField pathField = new JTextField("Pathname");
-        //		panel.add(open, BorderLayout.CENTER);
-        //		frame.add(pathField, BorderLayout.NORTH);
-        //		open.addActionListener(new ActionListener() {
-        //			@Override
-        //			public void actionPerformed(ActionEvent e) {
-        //				//                textArea.setText(controlPanel.open(pathField.getText()));
-        //			}
-        //		});
-        //		frame.setLocation(500, 500);
-        //		frame.setSize(400, 150);
-        //		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        //		frame.setVisible(true);
-
-        JOptionPane.showMessageDialog(this, "KUKU");
-
-        JFileChooser jFileChooser = new JFileChooser();
-        jFileChooser.setCurrentDirectory(new File("."));
-
-        int result = jFileChooser.showOpenDialog(this);
-
+        JFileChooser jOpenFileChooser = new JFileChooser();
+        jOpenFileChooser.setCurrentDirectory(new File("."));
+        int result = jOpenFileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
-
-            File selectedFile = jFileChooser.getSelectedFile();
-            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+            File selectedFile = jOpenFileChooser.getSelectedFile();
+            textArea.setText(open(selectedFile.getPath()));
         }
-
-
     }
 
 
@@ -170,7 +131,7 @@ public class Notepad extends JFrame {
             out = new FileOutputStream(file);
             bfOut = new BufferedOutputStream(out);
             bfOut.write(content.getBytes());
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         } finally {
             close(bfOut);
@@ -187,43 +148,7 @@ public class Notepad extends JFrame {
         }
     }
 
-
-
-
-
-
     public static void main(String[] args) {
         new Notepad();
     }
-}
-
-
-
-
-
-
-
-
-class SampleJFileChooser {
-
-    SampleJFileChooser() {
-
-        JFileChooser jFileChooser = new JFileChooser();
-        jFileChooser.setCurrentDirectory(new File("."));
-
-        int result = jFileChooser.showOpenDialog(null);
-
-        if (result == JFileChooser.APPROVE_OPTION) {
-
-            File selectedFile = jFileChooser.getSelectedFile();
-            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
-
-
-        }
-    }
-
-    public static void main(String[] args) {
-        new SampleJFileChooser();
-    }
-
 }
