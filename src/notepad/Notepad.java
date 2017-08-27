@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.nio.file.Files;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Areg on 8/18/2017.
@@ -66,43 +68,42 @@ public class Notepad extends JFrame {
         exitMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (isTheTextSame()) {
-                    System.exit(0);
-                } else {
-                    JFrame askingForSave = new JFrame("Notepad");
-                    JLabel theQuestion = new JLabel("Do you want to save changes to " + fileName);
-                    askingForSave.add(theQuestion, BorderLayout.CENTER);
-                    JPanel actionPanel = new JPanel();
-                    JButton saveButton = new JButton("Save");
-                    JButton dontSaveButton = new JButton("Don't Save");
-                    JButton cancelButton = new JButton("Cancel");
-                    actionPanel.add(saveButton);
-                    actionPanel.add(dontSaveButton);
-                    actionPanel.add(cancelButton);
-                    askingForSave.add(actionPanel, BorderLayout.SOUTH);
-                    saveButton.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            saveActionHandler(e);
-                        }
-                    });
-                    dontSaveButton.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            System.exit(0);
-                        }
-                    });
-                    cancelButton.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            // Question
-                        }
-                    });
-                    askingForSave.setLocation(400, 400);
-                    askingForSave.setSize(400, 200);
-                    askingForSave.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                    askingForSave.setVisible(true);
-                }
+              handleExitAction(e);
+
+//                    JFrame askingForSaveFrame = new JFrame("Notepad");
+//                    JLabel theQuestion = new JLabel("Do you want to save changes to " + fileName);
+//                    askingForSaveFrame.add(theQuestion, BorderLayout.CENTER);
+//                    JPanel actionPanel = new JPanel();
+//                    JButton saveButton = new JButton("Save");
+//                    JButton dontSaveButton = new JButton("Don't Save");
+//                    JButton cancelButton = new JButton("Cancel");
+//                    actionPanel.add(saveButton);
+//                    actionPanel.add(dontSaveButton);
+//                    actionPanel.add(cancelButton);
+//                    askingForSaveFrame.add(actionPanel, BorderLayout.SOUTH);
+//                    saveButton.addActionListener(new ActionListener() {
+//                        @Override
+//                        public void actionPerformed(ActionEvent e) {
+//                            saveActionHandler(e);
+//                        }
+//                    });
+//                    dontSaveButton.addActionListener(new ActionListener() {
+//                        @Override
+//                        public void actionPerformed(ActionEvent e) {
+//                            System.exit(0);
+//                        }
+//                    });
+//                    cancelButton.addActionListener(new ActionListener() {
+//                        @Override
+//                        public void actionPerformed(ActionEvent e) {
+//                            // Question
+//                        }
+//                    });
+//                    askingForSaveFrame.setLocation(400, 400);
+//                    askingForSaveFrame.setSize(400, 200);
+//                    askingForSaveFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//                    askingForSaveFrame.setVisible(true);
+//                }
             }
         });
 
@@ -116,6 +117,7 @@ public class Notepad extends JFrame {
     }
 
     private void newActionHandler(ActionEvent e){
+
         if (isTheTextSame()) {
             fileName = DEFAULT_FILENAME;
             file = null;
@@ -165,6 +167,30 @@ public class Notepad extends JFrame {
         }
     }
 
+    private void handleExitAction (ActionEvent e) {
+        processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING) );
+    }
+
+    @Override
+    protected void processWindowEvent(WindowEvent e){
+        if (e.getID() == WindowEvent.WINDOW_CLOSING &&   !isTheTextSame()) {
+            int selectedOption = JOptionPane.showConfirmDialog(this, "Do you want to save changes to " + fileName,
+                "Title", JOptionPane.YES_NO_CANCEL_OPTION);
+            switch(selectedOption ){
+                case JOptionPane.CANCEL_OPTION:
+                //    JOptionPane.showMessageDialog(this, "CANCEL_OPTION is selected");
+                    return;
+                case JOptionPane.NO_OPTION:
+                    JOptionPane.showMessageDialog(this, "NO_OPTION is selected");
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(this, "YES_OPTION is selected");
+
+            }
+            super.processWindowEvent(e);
+        }
+
+    }
 
     private void saveAsActionHandler(ActionEvent event) {
         JFileChooser jSaveFileChooser = new JFileChooser();
@@ -190,6 +216,7 @@ public class Notepad extends JFrame {
                 this.setTitle(file.getName() + " - Notepad");
             }
         } else {
+
             JFrame askingForSave = new JFrame("Notepad");
             JLabel theQuestion = new JLabel("Do you want to save changes to " + fileName);
             askingForSave.add(theQuestion, BorderLayout.CENTER);
@@ -311,17 +338,17 @@ public class Notepad extends JFrame {
         return textAtOpening == textArea.getText();
     }
 
-//
-//    public static List<File> search(File dirToSearchIn, String fileNameMask) {
-//        //TODO
-//        List<File> resultList = new ArrayList<>();
-//        search0(resultList, dirToSearchIn, fileNameMask);
-//        return resultList;
-//    }
-//
-//    private static void search0(List<File> resultList, File dirTosearchIn, String fileNameMask) {
-//        //TODO  complete recoursively
-//    }
+
+    public static List<File> search(File dirToSearchIn, String fileNameMask) {
+        //TODO
+        List<File> resultList = new ArrayList<>();
+        search0(resultList, dirToSearchIn, fileNameMask);
+        return resultList;
+    }
+
+    private static void search0(List<File> resultList, File dirTosearchIn, String fileNameMask) {
+        //TODO  complete recoursively
+    }
 
     public static void main(String[] args) {
         new Notepad();
