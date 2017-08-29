@@ -201,7 +201,7 @@ public class Notepad extends JFrame {
         if (file == null) {
             String noFileContent = textArea.getText();
             String nothing = "";
-            if (noFileContent == nothing) {
+            if (noFileContent.equals(nothing)) {
                 JFileChooser jOpenFileChooser = new JFileChooser();
                 jOpenFileChooser.setCurrentDirectory(new File("."));
                 int result = jOpenFileChooser.showOpenDialog(this);
@@ -298,7 +298,7 @@ public class Notepad extends JFrame {
 
     private String readFileContent(File file) {
         FileInputStream fileInputStream = null;
-        byte[] buff = null;
+        byte[] buff;
         String fileContent = null;
         try {
             fileInputStream = new FileInputStream(file);

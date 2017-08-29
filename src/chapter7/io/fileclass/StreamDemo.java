@@ -25,13 +25,15 @@ public class StreamDemo {
 			in = new FileInputStream(file);
 			buff = new byte[in.available()];
 			in.read(buff);
+			return buff;
 
 		} catch (IOException e) {
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		} finally {
 			close(in);
 		}
-		return buff;
+
 	}
 
 	static void writeFile(String content, File file) {
