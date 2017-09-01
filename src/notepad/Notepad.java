@@ -166,26 +166,26 @@ public class Notepad extends JFrame {
         }
     }
 
-//    @Override
-//    protected void processWindowEvent(WindowEvent e) {
-//        String fileContent = readFileContent(file);
-//        if (e.getID() == WindowEvent.WINDOW_CLOSING && fileContent != textArea.getText()) {
-//            int selectedOption = JOptionPane.showConfirmDialog(this, "Do you want to save changes to " + fileName,
-//                    "Notepad", JOptionPane.YES_NO_CANCEL_OPTION);
-//            switch (selectedOption) {
-//                case JOptionPane.CANCEL_OPTION:
-//                    return;
-//                case JOptionPane.NO_OPTION:
-////                    JOptionPane.showMessageDialog(this, "NO_OPTION is selected");
-//                    System.exit(0);
-//                    break;
-//                case JOptionPane.YES_OPTION:
-//
-//            }
-//            super.processWindowEvent(e);
-//        }
-//
-//    }
+    @Override
+    protected void processWindowEvent(WindowEvent e) {
+        if (e.getID() == WindowEvent.WINDOW_CLOSING && !isTextSame(file, textArea.getText())) {
+            int selectedOption = JOptionPane.showConfirmDialog(this, "Do you want to save changes to " + fileName,
+                    "Notepad", JOptionPane.YES_NO_CANCEL_OPTION);
+            switch (selectedOption) {
+                case JOptionPane.CANCEL_OPTION:
+                    return;
+                case JOptionPane.NO_OPTION:
+                    System.exit(0);
+                    break;
+                case JOptionPane.YES_OPTION:
+//                    saveActionHandler();
+                    break;
+
+            }
+            super.processWindowEvent(e);
+        }
+
+    }
 
     private void saveAsActionHandler(ActionEvent event) {
         JFileChooser jSaveFileChooser = new JFileChooser();
@@ -276,7 +276,6 @@ public class Notepad extends JFrame {
                             this.setTitle(fileName + " - Notepad");
                         }
                         break;
-
                     case JOptionPane.YES_OPTION:
                         saveActionHandler(e);
                         jOpenFileChooser = new JFileChooser();
@@ -363,13 +362,34 @@ public class Notepad extends JFrame {
 
     }
 
-    private static void close(Closeable closeable) {
+    private void close(Closeable closeable) {
         if (closeable != null) {
             try {
                 closeable.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private boolean isTextSame(File file, String string) {
+        if (file == null) {
+            return string.equals("");
+        } else {
+            FileInputStream fileInputStream = null;
+            byte[] buff;
+            String fileContent = null;
+            try {
+                fileInputStream = new FileInputStream(file);
+                buff = new byte[fileInputStream.available()];
+                fileInputStream.read(buff);
+                fileContent = new String(buff);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                close(fileInputStream);
+            }
+            return fileContent.equals(string);
         }
     }
 

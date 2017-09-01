@@ -20,7 +20,7 @@ public class StreamDemo {
 
 	static byte[] readFile (File file) {
 		InputStream in = null;
-		byte [] buff = null;
+		byte [] buff ;
 		try {
 			in = new FileInputStream(file);
 			buff = new byte[in.available()];
