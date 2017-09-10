@@ -69,22 +69,35 @@ public class FileUtil {
         return resultList;
     }
 
-    private static void search0(List<File> resultList, File dirTosearchIn, String fileNameMask) {
-        File[] files = dirTosearchIn.listFiles();
+    private static void search0(List<File> resultList, File dirToSearchIn, String fileNameMask) {
+        File[] files = dirToSearchIn.listFiles();
         for (int i = 0; i < files.length; i++) {
             if (files[i].isDirectory()) {
                 search0(resultList, files[i], fileNameMask);
-            } else {
-                if (files[i].getName().contains(fileNameMask)){
-                    resultList.add(files[i]);
-                }
+            } else if (checkMask(fileNameMask, files[i])) {
+                resultList.add(files[i]);
             }
+        }
+    }
+
+    private static boolean checkMask(String fileNameMask, File file) {
+        String fileName = file.getName();
+        if (fileNameMask.startsWith("*") && fileNameMask.endsWith("*")) {
+            String cleanedMask = fileNameMask.substring(1, fileNameMask.length() - 1);
+            int indexOf = fileName.indexOf(cleanedMask);
+            return indexOf + cleanedMask.length() < fileName.length() - 1;
+        } else if (fileNameMask.startsWith("*")) {
+            return fileName.endsWith(fileNameMask.substring(1, fileNameMask.length()));
+        } else if (fileNameMask.endsWith("*")) {
+            return fileName.startsWith(fileNameMask.substring(0, fileNameMask.length() - 1));
+        } else {
+            return fileName.equals(fileNameMask);
         }
     }
 
     public static void main(String[] args) {
         File file = new File(".");
-        List<File> list = search(file,"ku");
+        List<File> list = search(file, "");
         for (int i = 0; i < list.size(); i++) {
             System.out.println(list.remove(i));
         }

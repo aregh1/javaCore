@@ -89,9 +89,9 @@ public class Notepad extends JFrame {
             this.setTitle(DEFAULT_FILENAME + " - Notepad");
         } else {
             String fileName;
-            if(file == null){
+            if (file == null) {
                 fileName = DEFAULT_FILENAME;
-            }else {
+            } else {
                 fileName = file.getName();
             }
             int selectedOption = JOptionPane.showConfirmDialog(this, "Do you want to save changes to " + fileName,
@@ -147,47 +147,38 @@ public class Notepad extends JFrame {
     }
 
     private void openActionHandler(ActionEvent e) {
-        if (isTextSame(file, textArea.getText())) {
-            JFileChooser jOpenFileChooser = new JFileChooser();
-            jOpenFileChooser.setCurrentDirectory(new File("."));
-            int result = jOpenFileChooser.showOpenDialog(this);
-            if (result == JFileChooser.APPROVE_OPTION) {
-               loadFile( jOpenFileChooser.getSelectedFile());
-            }
-        } else {
-            String fileName;
-            if(file == null){
-                fileName = DEFAULT_FILENAME;
-            }else {
-                fileName = file.getName();
-            }
-            int selectedOption = JOptionPane.showConfirmDialog(this, "Do you want to save changes to " + fileName,
+        if (!isTextSame(file, textArea.getText())) {
+            int selectedOption = JOptionPane.showConfirmDialog(this, "Do you want to save changes to " + getFilename(file),
                     "Notepad", JOptionPane.YES_NO_CANCEL_OPTION);
             switch (selectedOption) {
                 case JOptionPane.CANCEL_OPTION:
                     return;
-                case JOptionPane.NO_OPTION:
-                    JFileChooser jOpenFileChooser = new JFileChooser();
-                    jOpenFileChooser.setCurrentDirectory(new File("."));
-                    int result = jOpenFileChooser.showOpenDialog(this);
-                    if (result == JFileChooser.APPROVE_OPTION) {
-                        loadFile( jOpenFileChooser.getSelectedFile());
-                    }
-                    break;
                 case JOptionPane.YES_OPTION:
                     saveActionHandler(e);
-                    jOpenFileChooser = new JFileChooser();
-                    jOpenFileChooser.setCurrentDirectory(new File("."));
-                    result = jOpenFileChooser.showOpenDialog(this);
-                    if (result == JFileChooser.APPROVE_OPTION) {
-                        loadFile( jOpenFileChooser.getSelectedFile());
-                    }
                     break;
             }
         }
+        handleFileChooserInOpenMode();
     }
 
-    private void loadFile (File file) {
+    private void handleFileChooserInOpenMode(){
+        JFileChooser jOpenFileChooser = new JFileChooser();
+        jOpenFileChooser.setCurrentDirectory(new File("."));
+        int result = jOpenFileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            loadFile(jOpenFileChooser.getSelectedFile());
+        }
+    }
+
+    private static String getFilename(File file) {
+        if (file == null) {
+            return DEFAULT_FILENAME;
+        } else {
+            return file.getName();
+        }
+    }
+
+    private void loadFile(File file) {
         this.file = file;
         textArea.setText(FileUtil.readFileContent(file));
         this.setTitle(file.getName() + " - Notepad");
