@@ -152,12 +152,10 @@ public class Notepad extends JFrame {
             jOpenFileChooser.setCurrentDirectory(new File("."));
             int result = jOpenFileChooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = jOpenFileChooser.getSelectedFile();
-                file = selectedFile;
-                textArea.setText(FileUtil.readFileContent(file));
-                this.setTitle(file.getName() + " - Notepad");
+               loadFile( jOpenFileChooser.getSelectedFile());
             }
-        } else {String fileName;
+        } else {
+            String fileName;
             if(file == null){
                 fileName = DEFAULT_FILENAME;
             }else {
@@ -173,10 +171,7 @@ public class Notepad extends JFrame {
                     jOpenFileChooser.setCurrentDirectory(new File("."));
                     int result = jOpenFileChooser.showOpenDialog(this);
                     if (result == JFileChooser.APPROVE_OPTION) {
-                        File selectedFile = jOpenFileChooser.getSelectedFile();
-                        file = selectedFile;
-                        textArea.setText(FileUtil.readFileContent(file));
-                        this.setTitle(file.getName() + " - Notepad");
+                        loadFile( jOpenFileChooser.getSelectedFile());
                     }
                     break;
                 case JOptionPane.YES_OPTION:
@@ -185,14 +180,17 @@ public class Notepad extends JFrame {
                     jOpenFileChooser.setCurrentDirectory(new File("."));
                     result = jOpenFileChooser.showOpenDialog(this);
                     if (result == JFileChooser.APPROVE_OPTION) {
-                        File selectedFile = jOpenFileChooser.getSelectedFile();
-                        file = selectedFile;
-                        textArea.setText(FileUtil.readFileContent(file));
-                        this.setTitle(file.getName() + " - Notepad");
+                        loadFile( jOpenFileChooser.getSelectedFile());
                     }
                     break;
             }
         }
+    }
+
+    private void loadFile (File file) {
+        this.file = file;
+        textArea.setText(FileUtil.readFileContent(file));
+        this.setTitle(file.getName() + " - Notepad");
     }
 
 
