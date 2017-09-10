@@ -116,24 +116,25 @@ public class Notepad extends JFrame {
 
     @Override
     protected void processWindowEvent(WindowEvent e) {
-        if (e.getID() == WindowEvent.WINDOW_CLOSING && !isTextSame(file, textArea.getText())) {
-            int selectedOption = JOptionPane.showConfirmDialog(this, "Do you want to save changes to " + file.getName(),
-                    "Notepad", JOptionPane.YES_NO_CANCEL_OPTION);
-            switch (selectedOption) {
-                case JOptionPane.CANCEL_OPTION:
-                    return;
-                case JOptionPane.NO_OPTION:
-                    System.exit(0);
-                    break;
-                case JOptionPane.YES_OPTION:
-//                    saveActionHandler();
-                    System.exit(0);
-                    break;
+        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+            if (!isTextSame(file, textArea.getText())){
+                int selectedOption = JOptionPane.showConfirmDialog(this, "Do you want to save changes to " + getFilename(file),
+                        "Notepad", JOptionPane.YES_NO_CANCEL_OPTION);
+                switch (selectedOption) {
+                    case JOptionPane.CANCEL_OPTION:
+                        return;
+                    case JOptionPane.NO_OPTION:
+                        System.exit(0);
+                        break;
+                    case JOptionPane.YES_OPTION:
+                        save();
+                        System.exit(0);
+                        break;
 
+                }
             }
             super.processWindowEvent(e);
         }
-
     }
 
     private void saveAsActionHandler(ActionEvent event) {
@@ -161,7 +162,7 @@ public class Notepad extends JFrame {
         handleFileChooserInOpenMode();
     }
 
-    private void handleFileChooserInOpenMode(){
+    private void handleFileChooserInOpenMode() {
         JFileChooser jOpenFileChooser = new JFileChooser();
         jOpenFileChooser.setCurrentDirectory(new File("."));
         int result = jOpenFileChooser.showOpenDialog(this);
@@ -199,6 +200,27 @@ public class Notepad extends JFrame {
             FileUtil.close(bfOut);
         }
     }
+
+    private void save(){
+        if (file == null) {
+            JFileChooser jSaveFileChooser = new JFileChooser();
+            jSaveFileChooser.setCurrentDirectory(new File("."));
+            int result = jSaveFileChooser.showSaveDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File saveFile = jSaveFileChooser.getSelectedFile();
+                saveAs(saveFile.getPath(), textArea.getText());
+            }
+        } else {
+            String filePath = file.getPath();
+            try {
+                Files.delete(file.toPath());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            saveAs(filePath, textArea.getText());
+        }
+    }
+
 
 
     private void saveActionHandler(ActionEvent event) {
