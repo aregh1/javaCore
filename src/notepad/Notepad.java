@@ -8,8 +8,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.nio.file.Files;
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Created by Areg on 8/18/2017.
@@ -83,41 +81,31 @@ public class Notepad extends JFrame {
     }
 
     private void newActionHandler(ActionEvent e) {
-        if (isTextSame(file, textArea.getText())) {
-            file = null;
-            textArea.setText("");
-            this.setTitle(DEFAULT_FILENAME + " - Notepad");
-        } else {
-            String fileName;
-            if (file == null) {
-                fileName = DEFAULT_FILENAME;
-            } else {
-                fileName = file.getName();
-            }
-            int selectedOption = JOptionPane.showConfirmDialog(this, "Do you want to save changes to " + fileName,
+        if (!isTextSame(file, textArea.getText())) {
+            int selectedOption = JOptionPane.showConfirmDialog(this, "Do you want to save changes to " + getFilename(file),
                     "Notepad", JOptionPane.YES_NO_CANCEL_OPTION);
             switch (selectedOption) {
                 case JOptionPane.CANCEL_OPTION:
                     return;
-                case JOptionPane.NO_OPTION:
-                    file = null;
-                    textArea.setText("");
-                    this.setTitle(DEFAULT_FILENAME + " - Notepad");
-                    break;
                 case JOptionPane.YES_OPTION:
                     saveActionHandler(e);
-                    file = null;
-                    textArea.setText("");
-                    this.setTitle(DEFAULT_FILENAME + " - Notepad");
                     break;
             }
         }
+        newFile();
+    }
+
+    private void newFile() {
+        file = null;
+        textArea.setText("");
+        this.setTitle(DEFAULT_FILENAME + " - Notepad");
+
     }
 
     @Override
     protected void processWindowEvent(WindowEvent e) {
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-            if (!isTextSame(file, textArea.getText())){
+            if (!isTextSame(file, textArea.getText())) {
                 int selectedOption = JOptionPane.showConfirmDialog(this, "Do you want to save changes to " + getFilename(file),
                         "Notepad", JOptionPane.YES_NO_CANCEL_OPTION);
                 switch (selectedOption) {
@@ -201,7 +189,7 @@ public class Notepad extends JFrame {
         }
     }
 
-    private void save(){
+    private void save() {
         if (file == null) {
             JFileChooser jSaveFileChooser = new JFileChooser();
             jSaveFileChooser.setCurrentDirectory(new File("."));
@@ -220,7 +208,6 @@ public class Notepad extends JFrame {
             saveAs(filePath, textArea.getText());
         }
     }
-
 
 
     private void saveActionHandler(ActionEvent event) {
