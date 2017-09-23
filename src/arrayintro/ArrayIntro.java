@@ -9,7 +9,7 @@ public class ArrayIntro {
         //How to declare  (type [] varName or type varName []  )
 //        int[] grades = null;
 //        int[] grades2 = null;
-          int[] averages = null ;
+        int[] averages = null;
 //        print(grades);
 //        averages = grades;   compilation error: it is not possible to assign an array to a difference type array
 //        grades ={1, 4, 5};   //Compilation error  see correction in the next line
@@ -18,7 +18,7 @@ public class ArrayIntro {
         int[] students;
         students = new int[12];
         for (int i = 0; i < students.length; i++) {
-            students[i] = i +1;
+            students[i] = i + 1;
         }
         System.out.print("students: ");
         print(students);

@@ -27,18 +27,6 @@ public class Notepad extends JFrame {
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.getViewport().add(textArea);
         JMenuBar menuBar = new JMenuBar();
-        JMenu fileMenu = new JMenu("File");
-        menuBar.add(fileMenu);
-        JMenuItem newMenu = new JMenuItem("New");
-        JMenuItem openMenu = new JMenuItem("Open");
-        JMenuItem saveMenu = new JMenuItem("Save");
-        JMenuItem saveAsMenu = new JMenuItem("Save As");
-        JMenuItem exitMenu = new JMenuItem("Exit");
-        fileMenu.add(newMenu);
-        fileMenu.add(openMenu);
-        fileMenu.add(saveMenu);
-        fileMenu.add(saveAsMenu);
-        fileMenu.add(exitMenu);
         textArea.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -57,36 +45,6 @@ public class Notepad extends JFrame {
         });
 
 
-        newMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                newActionHandler(e);
-            }
-        });
-        openMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openActionHandler(e);
-            }
-        });
-        saveMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                saveActionHandler(e);
-            }
-        });
-        saveAsMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                saveAsActionHandler(e);
-            }
-        });
-        exitMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                exitActionHandler(e);
-            }
-        });
         add(scrollPane, BorderLayout.CENTER);
         add(menuBar, BorderLayout.NORTH);
 
@@ -104,18 +62,7 @@ public class Notepad extends JFrame {
         System.out.println(braceChecker.getResultMessage());
     }
 
-    private void exitActionHandler(ActionEvent e) {
-        processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-    }
 
-    private void newActionHandler(ActionEvent e) {
-        if (!isTextSame(file, textArea.getText())) {
-            if (openConfirmDialogCanceled(e)) {
-                return;
-            }
-        }
-        newFile();
-    }
 
     private void newFile() {
         file = null;
@@ -124,47 +71,8 @@ public class Notepad extends JFrame {
 
     }
 
-    @Override
-    protected void processWindowEvent(WindowEvent e) {
-        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-            if (!isTextSame(file, textArea.getText())) {
-                int selectedOption = JOptionPane.showConfirmDialog(this, "Do you want to save changes to " + getFilename(file),
-                        "Notepad", JOptionPane.YES_NO_CANCEL_OPTION);
-                switch (selectedOption) {
-                    case JOptionPane.CANCEL_OPTION:
-                        return;
-                    case JOptionPane.NO_OPTION:
-                        System.exit(0);
-                        break;
-                    case JOptionPane.YES_OPTION:
-                        save();
-                        System.exit(0);
-                        break;
 
-                }
-            }
-            super.processWindowEvent(e);
-        }
-    }
 
-    private void saveAsActionHandler(ActionEvent event) {
-        JFileChooser jSaveFileChooser = new JFileChooser();
-        jSaveFileChooser.setCurrentDirectory(new File("."));
-        int result = jSaveFileChooser.showSaveDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File saveFile = jSaveFileChooser.getSelectedFile();
-            saveAs(saveFile.getPath(), textArea.getText());
-        }
-    }
-
-    private void openActionHandler(ActionEvent e) {
-        if (!isTextSame(file, textArea.getText())) {
-            if (openConfirmDialogCanceled(e)) {
-                return;
-            }
-        }
-        handleFileChooserInOpenMode();
-    }
 
     private boolean openConfirmDialogCanceled(ActionEvent e) {
         int selectedOption = JOptionPane.showConfirmDialog(this, "Do you want to save changes to " + getFilename(file),
@@ -239,7 +147,62 @@ public class Notepad extends JFrame {
     }
 
 
-    private void saveActionHandler(ActionEvent event) {
+    void exitActionHandler(ActionEvent e) {
+        processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+    }
+
+    void newActionHandler(ActionEvent e) {
+        if (!isTextSame(file, textArea.getText())) {
+            if (openConfirmDialogCanceled(e)) {
+                return;
+            }
+        }
+        newFile();
+    }
+    @Override
+    protected void processWindowEvent(WindowEvent e) {
+        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+            if (!isTextSame(file, textArea.getText())) {
+                int selectedOption = JOptionPane.showConfirmDialog(this, "Do you want to save changes to " + getFilename(file),
+                        "Notepad", JOptionPane.YES_NO_CANCEL_OPTION);
+                switch (selectedOption) {
+                    case JOptionPane.CANCEL_OPTION:
+                        return;
+                    case JOptionPane.NO_OPTION:
+                        System.exit(0);
+                        break;
+                    case JOptionPane.YES_OPTION:
+                        save();
+                        System.exit(0);
+                        break;
+
+                }
+            }
+            super.processWindowEvent(e);
+        }
+    }
+
+    void saveAsActionHandler(ActionEvent event) {
+        JFileChooser jSaveFileChooser = new JFileChooser();
+        jSaveFileChooser.setCurrentDirectory(new File("."));
+        int result = jSaveFileChooser.showSaveDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File saveFile = jSaveFileChooser.getSelectedFile();
+            saveAs(saveFile.getPath(), textArea.getText());
+        }
+    }
+
+    void openActionHandler(ActionEvent e) {
+        if (!isTextSame(file, textArea.getText())) {
+            if (openConfirmDialogCanceled(e)) {
+                return;
+            }
+        }
+        handleFileChooserInOpenMode();
+    }
+
+
+    void saveActionHandler(ActionEvent event) {
         if (file == null) {
             saveAsActionHandler(event);
         } else {
@@ -275,6 +238,7 @@ public class Notepad extends JFrame {
             return fileContent.equals(string);
         }
     }
+
 
 
     public static void main(String[] args) {
