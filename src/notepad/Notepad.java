@@ -1,9 +1,12 @@
 package notepad;
 
 
+import bracechecker.BraceChecker;
 import util.FileUtil;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -13,6 +16,7 @@ import java.nio.file.Files;
  * Created by Areg on 8/18/2017.
  */
 public class Notepad extends JFrame {
+    private BraceChecker braceChecker;
     private JTextArea textArea;
     private File file;
     private static final String DEFAULT_FILENAME = "Untitled";
@@ -35,6 +39,22 @@ public class Notepad extends JFrame {
         fileMenu.add(saveMenu);
         fileMenu.add(saveAsMenu);
         fileMenu.add(exitMenu);
+        textArea.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                checkBrackets();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                checkBrackets();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        });
 
 
         newMenu.addActionListener(new ActionListener() {
@@ -75,6 +95,14 @@ public class Notepad extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
     }
+    private void checkBrackets(){
+        String text = textArea.getText();
+        if(braceChecker == null) {
+            braceChecker = new BraceChecker();
+        }
+        braceChecker.parse(text);
+        System.out.println(braceChecker.getResultMessage());
+    }
 
     private void exitActionHandler(ActionEvent e) {
         processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
@@ -82,14 +110,8 @@ public class Notepad extends JFrame {
 
     private void newActionHandler(ActionEvent e) {
         if (!isTextSame(file, textArea.getText())) {
-            int selectedOption = JOptionPane.showConfirmDialog(this, "Do you want to save changes to " + getFilename(file),
-                    "Notepad", JOptionPane.YES_NO_CANCEL_OPTION);
-            switch (selectedOption) {
-                case JOptionPane.CANCEL_OPTION:
-                    return;
-                case JOptionPane.YES_OPTION:
-                    saveActionHandler(e);
-                    break;
+            if (openConfirmDialogCanceled(e)) {
+                return;
             }
         }
         newFile();
@@ -137,17 +159,24 @@ public class Notepad extends JFrame {
 
     private void openActionHandler(ActionEvent e) {
         if (!isTextSame(file, textArea.getText())) {
-            int selectedOption = JOptionPane.showConfirmDialog(this, "Do you want to save changes to " + getFilename(file),
-                    "Notepad", JOptionPane.YES_NO_CANCEL_OPTION);
-            switch (selectedOption) {
-                case JOptionPane.CANCEL_OPTION:
-                    return;
-                case JOptionPane.YES_OPTION:
-                    saveActionHandler(e);
-                    break;
+            if (openConfirmDialogCanceled(e)) {
+                return;
             }
         }
         handleFileChooserInOpenMode();
+    }
+
+    private boolean openConfirmDialogCanceled(ActionEvent e) {
+        int selectedOption = JOptionPane.showConfirmDialog(this, "Do you want to save changes to " + getFilename(file),
+                "Notepad", JOptionPane.YES_NO_CANCEL_OPTION);
+        switch (selectedOption) {
+            case JOptionPane.CANCEL_OPTION:
+                return true;
+            case JOptionPane.YES_OPTION:
+                saveActionHandler(e);
+                break;
+        }
+        return false;
     }
 
     private void handleFileChooserInOpenMode() {
