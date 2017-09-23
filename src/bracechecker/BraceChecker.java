@@ -20,7 +20,7 @@ public class BraceChecker {
         return resultMessage;
     }
 
-    public void parse(String text) {
+    public ParseResult parse(String text) {
         reset();
         char ch = 0;
         BracketItem currentBracketItem = null;
@@ -66,18 +66,31 @@ public class BraceChecker {
                     break;
             }
         }
+
+        ParseResult parseResult = ParseResult.NO_ERROR;
         if (i < text.length()) {
             if (stackLastElement == null) {
+                parseResult = ParseResult.CLOSED_BUT_NOT_OPENED;
+                parseResult.setLastClosedBracket(currentBracketItem);
                 resultMessage = "Error: Closed " + currentBracketItem + " but not opened";
             } else {
+                parseResult = ParseResult.OPENED_BUT_CLOSED_WRONG_BRACKET;
+                parseResult.setLastClosedBracket(currentBracketItem);
+                parseResult.setLastOpenedBracket(stackLastElement);
                 resultMessage = "Error: Closed " + currentBracketItem + " but opened " + stackLastElement + "'.";
             }
+            parseResult.setResultMessage(resultMessage);
         } else {
             stackLastElement = stack.pop();
             if (stackLastElement != null) {
+                parseResult = ParseResult.OPENED_BUT_NOT_CLOSED;
+                parseResult.setLastOpenedBracket(stackLastElement);
                 resultMessage = "Error: Opened '" + stackLastElement + "' but not closed";
+                parseResult.setResultMessage(resultMessage);
             }
         }
+
+        return parseResult;
     }
 
     private void reset() {
@@ -137,5 +150,46 @@ public class BraceChecker {
                     "' [" + lineNumber +
                     " : " + numberInLine + ']';
         }
+    }
+
+    public enum ParseResult{
+        NO_ERROR(null, null, null),
+        OPENED_BUT_NOT_CLOSED(null, null, null),
+        OPENED_BUT_CLOSED_WRONG_BRACKET(null, null, null),
+        CLOSED_BUT_NOT_OPENED(null, null, "No Error"),;
+
+        ParseResult(BracketItem lastOpenedBracket, BracketItem lastClosedBracket, String resultMessage) {
+            this.lastOpenedBracket = lastOpenedBracket;
+            this.lastClosedBracket = lastClosedBracket;
+            this.resultMessage = resultMessage;
+        }
+
+        public void setLastClosedBracket(BracketItem lastClosedBracket) {
+            this.lastClosedBracket = lastClosedBracket;
+        }
+
+        public void setLastOpenedBracket(BracketItem lastOpenedBracket) {
+            this.lastOpenedBracket = lastOpenedBracket;
+        }
+
+        public void setResultMessage(String resultMessage) {
+            this.resultMessage = resultMessage;
+        }
+
+        public BracketItem getLastOpenedBracket() {
+            return lastOpenedBracket;
+        }
+
+        public BracketItem getLastClosedBracket() {
+            return lastClosedBracket;
+        }
+
+        public String getResultMessage() {
+            return resultMessage;
+        }
+
+        private BracketItem lastOpenedBracket;
+        private BracketItem lastClosedBracket;
+        private String resultMessage;
     }
 }
