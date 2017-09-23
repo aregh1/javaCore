@@ -16,7 +16,7 @@ class NewThread implements Runnable {
 
 		try {
 			for (int i = 5; i > 0; i--) {
-				System.out.println("In RUN METHOD currentThread().getName(): " + Thread.currentThread().getName() );
+				System.out.println("In RUN METHOD currentThread().getValue(): " + Thread.currentThread().getName() );
 				System.out.println("Child Thread: " + i);
 				Thread.sleep(500);
 			}
@@ -27,7 +27,7 @@ class NewThread implements Runnable {
 	}
 
 	public void join() throws InterruptedException {
-		if(t != null){System.out.println("In RUN METHOD currentThread().getName(): " + Thread.currentThread().getName() );
+		if(t != null){System.out.println("In RUN METHOD currentThread().getValue(): " + Thread.currentThread().getName() );
 			t.join();
 		}
 	}

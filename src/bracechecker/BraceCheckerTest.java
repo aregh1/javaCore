@@ -1,10 +1,25 @@
 package bracechecker;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import notepad.NotepadMenu;
+
 /**
  * Created by Areg on 3/6/2017.
  */
 public class BraceCheckerTest {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        Properties properties = new Properties();
+        InputStream is = BraceCheckerTest.class.getClassLoader().getResourceAsStream("fileMenu_arm.properties");
+        properties.load(is);
+        System.out.println(properties);
+
+        for (NotepadMenu.NotepadMenuItem value: NotepadMenu.NotepadMenuItem.values()) {
+            System.out.println(properties.getProperty(value.getValue() ));
+        }
+
+
         BraceChecker braceChecker = new BraceChecker();
         BraceChecker.ParseResult parseResult = braceChecker.parse("{");
         switch (parseResult){

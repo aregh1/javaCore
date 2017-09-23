@@ -3,8 +3,6 @@ package notepad;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.io.File;
 
 /**
  * Created by Areg on 9/23/2017.
@@ -65,17 +63,24 @@ public class NotepadMenu extends JMenuBar {
     }
 
     public enum NotepadMenuItem {
-        NEW("New"),
-        OPEN("Open"),
-        SAVE("Save"),
-        SAVE_AS("Save As"),
-        EXIT("Exit");
+        NEW("new"),
+        OPEN("open"),
+        SAVE("save"),
+        SAVE_AS("saveAs"),
+        EXIT("exit");
 
-        private String name;
 
-        NotepadMenuItem(String name) {
-            this.name = name;
+        public String getValue() {
+            return value;
         }
+
+        private String value;
+
+        NotepadMenuItem(String value) {
+            this.value = value;
+        }
+
+
 
 
     }
