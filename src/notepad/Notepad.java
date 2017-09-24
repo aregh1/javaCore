@@ -58,22 +58,25 @@ public class Notepad extends JFrame {
     }
 
     private void checkBrackets() {
-        String text = textArea.getText();
         if (braceChecker == null) {
             braceChecker = new BraceChecker();
         }
+        String text = textArea.getText();
         BraceChecker.ParseResult parseResult = braceChecker.parse(text);
+
+        UnderlineHighlighter.UnderlineHighlightPainter painter = new UnderlineHighlighter.UnderlineHighlightPainter(Color.RED);
+        Highlighter highlighter = textArea.getHighlighter();
+        highlighter.removeAllHighlights();
+
         switch (parseResult) {
             case CLOSED_BUT_NOT_OPENED:
-                UnderlineHighlighter.UnderlineHighlightPainter underlineHighlightPainter = new UnderlineHighlighter.UnderlineHighlightPainter(Color.RED);
-                Highlighter highlighter = textArea.getHighlighter();
+
                 int offset = parseResult.getLastClosedBracket().getIndex();
                 try {
-                    highlighter.addHighlight(offset, offset + 1, underlineHighlightPainter);
+                    highlighter.addHighlight(offset, offset + 1, painter);
                 } catch (BadLocationException e) {
                     e.printStackTrace();
                 }
-                //todo something
                 break;
             case OPENED_BUT_CLOSED_WRONG_BRACKET:
                 //todo something
@@ -81,6 +84,8 @@ public class Notepad extends JFrame {
             case OPENED_BUT_NOT_CLOSED:
                 //todo something
                 break;
+            case NO_ERROR:
+
         }
     }
 
