@@ -6,8 +6,7 @@ import java.awt.*;
 public class UnderlineHighlighter extends DefaultHighlighter {
 
     // Shared painter used for default highlighting
-    protected static final HighlightPainter sharedPainter
-            = new UnderlineHighlightPainter(null);
+    protected static final HighlightPainter sharedPainter = new UnderlineHighlightPainter(null);
 
     // Painter used for this highlighter
     protected HighlightPainter painter;
@@ -32,20 +31,17 @@ public class UnderlineHighlighter extends DefaultHighlighter {
     }
 
     // Painter for underlined highlights
-    public static class UnderlineHighlightPainter extends
-            LayerPainter {
+    public static class UnderlineHighlightPainter extends LayerPainter {
 
         public UnderlineHighlightPainter(Color c) {
             color = c;
         }
 
-        public void paint(Graphics g, int offs0, int offs1, Shape bounds,
-                          JTextComponent c) {
+        public void paint(Graphics g, int offs0, int offs1, Shape bounds, JTextComponent c) {
             // Do nothing: this method will never be called
         }
 
-        public Shape paintLayer(Graphics g, int offs0, int offs1, Shape bounds,
-                                JTextComponent c, View view) {
+        public Shape paintLayer(Graphics g, int offs0, int offs1, Shape bounds, JTextComponent c, View view) {
             g.setColor(color == null ? c.getSelectionColor() : color);
 
             Rectangle alloc = null;

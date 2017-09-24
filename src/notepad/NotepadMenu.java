@@ -10,25 +10,34 @@ import java.awt.event.ActionListener;
 public class NotepadMenu extends JMenuBar {
     private JMenu fileMenu;
     private Notepad notepad;
-
+    private JMenu settingMenu;
 
 
     public NotepadMenu(Notepad notepad) {
         this.notepad = notepad;
 
         fileMenu = new JMenu("File");
-        JMenuItem newMenu = new JMenuItem();
+        settingMenu = new JMenu("Setting");
+        JMenu languageMenu = new JMenu("Language");
+        JMenuItem newMenu = new JMenuItem("New");
         JMenuItem openMenu = new JMenuItem(  "Open");
         JMenuItem saveMenu = new JMenuItem(  "Save");
         JMenuItem saveAsMenu = new JMenuItem("Save As");
         JMenuItem exitMenu = new JMenuItem(  "Exit");
+        JMenuItem armenian = new JMenuItem("arm");
+        JMenuItem russian = new JMenuItem("rus");
+        JMenuItem france = new JMenuItem("fr");
+        languageMenu.add(armenian);
+        languageMenu.add(russian);
+        languageMenu.add(france);
         fileMenu.add(newMenu);
         fileMenu.add(openMenu);
         fileMenu.add(saveMenu);
         fileMenu.add(saveAsMenu);
         fileMenu.add(exitMenu);
+        settingMenu.add(languageMenu);
         add(fileMenu);
-
+        add(settingMenu);
 
         newMenu.addActionListener(new ActionListener() {
             @Override
@@ -79,9 +88,6 @@ public class NotepadMenu extends JMenuBar {
         NotepadMenuItem(String value) {
             this.value = value;
         }
-
-
-
 
     }
 

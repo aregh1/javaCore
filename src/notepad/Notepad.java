@@ -26,7 +26,7 @@ public class Notepad extends JFrame {
         textArea = new JTextArea();
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.getViewport().add(textArea);
-        JMenuBar menuBar = new JMenuBar();
+
         textArea.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -46,7 +46,7 @@ public class Notepad extends JFrame {
 
 
         add(scrollPane, BorderLayout.CENTER);
-        add(menuBar, BorderLayout.NORTH);
+        add(new NotepadMenu(this),BorderLayout.NORTH);
 
         setLocation(0, 0);
         setSize(400, 400);
@@ -58,8 +58,18 @@ public class Notepad extends JFrame {
         if(braceChecker == null) {
             braceChecker = new BraceChecker();
         }
-        braceChecker.parse(text);
-        System.out.println(braceChecker.getResultMessage());
+        BraceChecker.ParseResult parseResult = braceChecker.parse(text);
+        switch (parseResult){
+            case CLOSED_BUT_NOT_OPENED:
+                //todo something
+                break;
+            case OPENED_BUT_CLOSED_WRONG_BRACKET:
+                //todo something
+                break;
+            case OPENED_BUT_NOT_CLOSED:
+                //todo something
+                break;
+        }
     }
 
 
