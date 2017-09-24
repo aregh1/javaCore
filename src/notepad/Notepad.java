@@ -24,7 +24,7 @@ public class Notepad extends JFrame {
     private File file;
     private static final String DEFAULT_FILENAME = "Untitled";
 
-    private Notepad() {
+    private Notepad() throws IOException {
         setTitle(DEFAULT_FILENAME + " - Notepad");
         textArea = new JTextArea();
         JScrollPane scrollPane = new JScrollPane();
@@ -265,7 +265,7 @@ public class Notepad extends JFrame {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         new Notepad();
     }
 }

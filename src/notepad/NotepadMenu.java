@@ -1,8 +1,15 @@
 package notepad;
 
+import bracechecker.BraceCheckerTest;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+import static notepad.NotepadMenu.NotepadMenuItem.*;
 
 /**
  * Created by Areg on 9/23/2017.
@@ -13,11 +20,16 @@ public class NotepadMenu extends JMenuBar {
     private JMenu settingMenu;
 
 
-    public NotepadMenu(Notepad notepad) {
+    public NotepadMenu(Notepad notepad) throws IOException {
         this.notepad = notepad;
 
-        fileMenu = new JMenu("File");
-        settingMenu = new JMenu("Setting");
+        Properties properties = new Properties();
+        InputStream is = BraceCheckerTest.class.getClassLoader().getResourceAsStream("fileMenu_arm.properties");
+        properties.load(is);
+        System.out.println(properties);
+
+        fileMenu = new JMenu(properties.getProperty(FILE.getValue()));
+        settingMenu = new JMenu(properties.getProperty(SETTING.getValue()));
         JMenu languageMenu = new JMenu("Language");
         JMenuItem newMenu = new JMenuItem("New");
         JMenuItem openMenu = new JMenuItem(  "Open");
@@ -72,6 +84,8 @@ public class NotepadMenu extends JMenuBar {
     }
 
     public enum NotepadMenuItem {
+        SETTING("setting"),
+        FILE("file"),
         NEW("new"),
         OPEN("open"),
         SAVE("save"),
