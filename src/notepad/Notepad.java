@@ -2,11 +2,14 @@ package notepad;
 
 
 import bracechecker.BraceChecker;
+import notepad.util.UnderlineHighlighter;
 import util.FileUtil;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Highlighter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -46,21 +49,30 @@ public class Notepad extends JFrame {
 
 
         add(scrollPane, BorderLayout.CENTER);
-        add(new NotepadMenu(this),BorderLayout.NORTH);
+        add(new NotepadMenu(this), BorderLayout.NORTH);
 
         setLocation(0, 0);
         setSize(400, 400);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
     }
-    private void checkBrackets(){
+
+    private void checkBrackets() {
         String text = textArea.getText();
-        if(braceChecker == null) {
+        if (braceChecker == null) {
             braceChecker = new BraceChecker();
         }
         BraceChecker.ParseResult parseResult = braceChecker.parse(text);
-        switch (parseResult){
+        switch (parseResult) {
             case CLOSED_BUT_NOT_OPENED:
+                UnderlineHighlighter.UnderlineHighlightPainter underlineHighlightPainter = new UnderlineHighlighter.UnderlineHighlightPainter(Color.RED);
+                Highlighter highlighter = textArea.getHighlighter();
+                int offset = parseResult.getLastClosedBracket().getIndex();
+                try {
+                    highlighter.addHighlight(offset, offset + 1, underlineHighlightPainter);
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
                 //todo something
                 break;
             case OPENED_BUT_CLOSED_WRONG_BRACKET:
@@ -73,15 +85,12 @@ public class Notepad extends JFrame {
     }
 
 
-
     private void newFile() {
         file = null;
         textArea.setText("");
         this.setTitle(DEFAULT_FILENAME + " - Notepad");
 
     }
-
-
 
 
     private boolean openConfirmDialogCanceled(ActionEvent e) {
@@ -169,6 +178,7 @@ public class Notepad extends JFrame {
         }
         newFile();
     }
+
     @Override
     protected void processWindowEvent(WindowEvent e) {
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
@@ -248,7 +258,6 @@ public class Notepad extends JFrame {
             return fileContent.equals(string);
         }
     }
-
 
 
     public static void main(String[] args) {

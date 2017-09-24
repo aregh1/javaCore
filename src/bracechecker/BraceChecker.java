@@ -98,7 +98,7 @@ public class BraceChecker {
         resultMessage = DEFAULT_MESSAGE;
     }
 
-    static class BracketItem {
+    public static class BracketItem {
         private char value = 0;
         private int index = 0;
         private int lineNumber = 0;
