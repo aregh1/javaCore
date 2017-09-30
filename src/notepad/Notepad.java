@@ -113,7 +113,9 @@ public class Notepad extends JFrame {
             case JOptionPane.CANCEL_OPTION:
                 return true;
             case JOptionPane.YES_OPTION:
-                saveActionHandler(e);
+                if(!saveActionHandler(e)){
+                  return true;
+                }
                 break;
         }
         return false;
@@ -215,14 +217,16 @@ public class Notepad extends JFrame {
         }
     }
 
-    void saveAsActionHandler(ActionEvent event) {
+    boolean saveAsActionHandler(ActionEvent event) {
         JFileChooser jSaveFileChooser = new JFileChooser();
         jSaveFileChooser.setCurrentDirectory(new File("."));
         int result = jSaveFileChooser.showSaveDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File saveFile = jSaveFileChooser.getSelectedFile();
             saveAs(saveFile.getPath(), textArea.getText());
+            return true;
         }
+        return false;
     }
 
     void openActionHandler(ActionEvent e) {
@@ -235,9 +239,9 @@ public class Notepad extends JFrame {
     }
 
 
-    void saveActionHandler(ActionEvent event) {
+    boolean saveActionHandler(ActionEvent event) {
         if (file == null) {
-            saveAsActionHandler(event);
+            return saveAsActionHandler(event);
         } else {
             String filePath = file.getPath();
             try {
@@ -246,7 +250,9 @@ public class Notepad extends JFrame {
                 e.printStackTrace();
             }
             saveAs(filePath, textArea.getText());
+            return true;
         }
+
 
     }
 

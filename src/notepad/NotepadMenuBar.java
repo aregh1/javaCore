@@ -13,37 +13,41 @@ import static notepad.NotepadMenuBar.FileMenuItem.*;
  * Created by Areg on 9/23/2017.
  */
 public class NotepadMenuBar extends JMenuBar {
-    private JMenu fileMenu;
+    private static final LanguageMenuItem DEFAULT_LANGUAGE = LanguageMenuItem.ENGLISH;
+
     private Notepad notepad;
+    private JMenu fileMenu;
     private JMenu settingMenu;
-    private String currentLanguage;
+    private JMenu languageMenu;
+    private LanguageMenuItem currentLanguage;
 
 
     public NotepadMenuBar(Notepad notepad) throws IOException {
         this.notepad = notepad;
 
-        Properties properties = new Properties();
-        InputStream is = NotepadMenu.class.getClassLoader().getResourceAsStream("fileMenu.properties");
-        properties.load(is);
 
-        loadMenuTexts(this, NotepadMenu.);
-        JMenu languageMenu = new JMenu(properties.getProperty(LANGUAGE.getValue()));
-        JMenuItem newMenu = new JMenuItem(properties.getProperty(NEW.getValue()));
-        JMenuItem openMenu = new JMenuItem(properties.getProperty(OPEN.getValue()));
-        JMenuItem saveMenu = new JMenuItem(properties.getProperty(SAVE.getValue()));
-        JMenuItem saveAsMenu = new JMenuItem(properties.getProperty(SAVE_AS.getValue()));
-        JMenuItem exitMenu = new JMenuItem(properties.getProperty(EXIT.getValue()));
-        JMenuItem armenian = new JMenuItem(properties.getProperty(ARMENIAN.getValue()));
-        JMenuItem russian = new JMenuItem(properties.getProperty(RUSSIAN.getValue()));
-        JMenuItem french = new JMenuItem(properties.getProperty(FRENCH.getValue()));
-        JMenuItem english = new JMenuItem(properties.getProperty(ENGLISH.getValue()));
-        add(fileMenu);
-        add(settingMenu);
-        settingMenu.add(languageMenu);
+        fileMenu = new JMenu();
+        JMenuItem newMenu = new JMenuItem();
+        JMenuItem openMenu = new JMenuItem();
+        JMenuItem saveMenu = new JMenuItem();
+        JMenuItem saveAsMenu = new JMenuItem();
+        JMenuItem exitMenu = new JMenuItem();
+
+
+        //Language subMenu
+        languageMenu = new JMenu();
+        JMenuItem armenian = new JMenuItem();
+        JMenuItem russian = new JMenuItem();
+        JMenuItem french = new JMenuItem();
+        JMenuItem english = new JMenuItem();
         languageMenu.add(armenian);
         languageMenu.add(russian);
         languageMenu.add(french);
         languageMenu.add(english);
+
+        settingMenu = new JMenu();
+        settingMenu.add(languageMenu);
+
         fileMenu.add(newMenu);
         fileMenu.add(openMenu);
         fileMenu.add(saveMenu);
@@ -52,50 +56,29 @@ public class NotepadMenuBar extends JMenuBar {
         english.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Properties properties = new Properties();
-                InputStream is = NotepadMenu.class.getClassLoader().getResourceAsStream("fileMenu.properties");
-                try {
-                    properties.load(is);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                currentLanguage = LanguageMenuItem.ENGLISH;
+                loadMenuBarTexts();
             }
         });
         armenian.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Properties properties = new Properties();
-                InputStream is = NotepadMenu.class.getClassLoader().getResourceAsStream("fileMenu_arm.properties");
-                try {
-                    properties.load(is);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                currentLanguage = LanguageMenuItem.ARMENIAN;
+                loadMenuBarTexts();
             }
         });
         russian.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Properties properties = new Properties();
-                InputStream is = NotepadMenu.class.getClassLoader().getResourceAsStream("fileMenu_ru.properties");
-                try {
-                    properties.load(is);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                currentLanguage = LanguageMenuItem.RUSSIAN;
+                loadMenuBarTexts();
             }
         });
         french.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Properties properties = new Properties();
-                InputStream is = NotepadMenu.class.getClassLoader().getResourceAsStream("fileMenu_fr.properties");
-                try {
-                    properties.load(is);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-
+                currentLanguage = LanguageMenuItem.FRENCH;
+                loadMenuBarTexts();
             }
         });
 
@@ -130,40 +113,28 @@ public class NotepadMenuBar extends JMenuBar {
                 notepad.exitActionHandler(e);
             }
         });
+
+        currentLanguage = DEFAULT_LANGUAGE;
+        loadMenuBarTexts();
+
+        add(fileMenu);
+        add(settingMenu);
     }
 
-    private void loadSettingsMenuText(String language) {
+    private void loadMenuBarTexts () {
         Properties properties = new Properties();
-        InputStream is = NotepadMenu.class.getClassLoader().getResourceAsStream(language);
+        InputStream is = NotepadMenu.class.getClassLoader().getResourceAsStream(currentLanguage.getPropertiesFileName());
         try {
             properties.load(is);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        loadMenuTexts(settingMenu, FileMenuItem.getNames(), properties);
-    }
-
-    private void loadLanguageMenuText(String language) {
-        Properties properties = new Properties();
-        InputStream is = NotepadMenu.class.getClassLoader().getResourceAsStream(language);
-        try {
-            properties.load(is);
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace(); // TODO accurate the handling later
         }
 
-        loadMenuTexts((JMenu)settingMenu.getMenuComponent(0), FileMenuItem.getNames(), properties);
-    }
-
-    private void loadFileMenuText(String language) {
-        Properties properties = new Properties();
-        InputStream is = NotepadMenu.class.getClassLoader().getResourceAsStream(language);
-        try {
-            properties.load(is);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        fileMenu.setText(properties.getProperty(NotepadMenu.FILE.getName()));
+        settingMenu.setText(properties.getProperty(NotepadMenu.SETTINGS.getName()));
         loadMenuTexts(fileMenu, FileMenuItem.getNames(), properties);
+        loadMenuTexts(settingMenu, SettingsMenuItem.getNames(), properties);
+        loadMenuTexts( languageMenu , SettingsMenuItem.getNames(), properties);
     }
 
     private void loadMenuTexts(JMenu menu, String[] keys, Properties properties) {
@@ -253,13 +224,22 @@ public class NotepadMenuBar extends JMenuBar {
     }
 
     public enum LanguageMenuItem {
-        ARMENIAN("armenian"),
-        RUSSIAN("russian"),
-        FRENCH("french"),
-        ENGLISH("english");
+        ARMENIAN("armenian", "fileMenu_arm.properties"),
+        RUSSIAN("russian", "fileMenu_ru.properties"),
+        FRENCH("french", "fileMenu_fr.properties"),
+        ENGLISH("english", "fileMenu.properties");
+
+        LanguageMenuItem(String name, String propertiesFileName) {
+            this.name = name;
+            this.propertiesFileName = propertiesFileName;
+        }
 
         public String getName() {
             return name;
+        }
+
+        public String getPropertiesFileName() {
+            return propertiesFileName;
         }
 
         public static String[] getNames() {
@@ -272,11 +252,7 @@ public class NotepadMenuBar extends JMenuBar {
             return result;
         }
 
-
-        LanguageMenuItem(String name) {
-            this.name = name;
-        }
-
+        private String propertiesFileName;
         private String name;
     }
 }

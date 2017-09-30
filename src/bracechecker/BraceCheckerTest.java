@@ -16,7 +16,7 @@ public class BraceCheckerTest {
         System.out.println(properties);
 
         for (NotepadMenuBar.FileMenuItem value: NotepadMenuBar.FileMenuItem.values()) {
-            System.out.println(properties.getProperty(value.getValue() ));
+            System.out.println(properties.getProperty(value.getName() ));
         }
 
 
