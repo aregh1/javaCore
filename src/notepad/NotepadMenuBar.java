@@ -24,102 +24,185 @@ public class NotepadMenuBar extends JMenuBar {
 
     public NotepadMenuBar(Notepad notepad) throws IOException {
         this.notepad = notepad;
-
-
-        fileMenu = new JMenu();
-        JMenuItem newMenu = new JMenuItem();
-        JMenuItem openMenu = new JMenuItem();
-        JMenuItem saveMenu = new JMenuItem();
-        JMenuItem saveAsMenu = new JMenuItem();
-        JMenuItem exitMenu = new JMenuItem();
+        createFileMenu();
+        createLanguageMenu();
+//        fileMenu = new JMenu();
+//        JMenuItem newMenuItem = new JMenuItem();
+//        JMenuItem openMenuItem = new JMenuItem();
+//        JMenuItem saveMenuItem = new JMenuItem();
+//        JMenuItem saveAsMenuItem = new JMenuItem();
+//        JMenuItem exitMenuItem = new JMenuItem();
 
 
         //Language subMenu
-        languageMenu = new JMenu();
-        JMenuItem armenian = new JMenuItem();
-        JMenuItem russian = new JMenuItem();
-        JMenuItem french = new JMenuItem();
-        JMenuItem english = new JMenuItem();
-        languageMenu.add(armenian);
-        languageMenu.add(russian);
-        languageMenu.add(french);
-        languageMenu.add(english);
-
+//        languageMenu = new JMenu();
+//        JMenuItem armenianMenuItem = new JMenuItem();
+//        JMenuItem russianMenuItem = new JMenuItem();
+//        JMenuItem frenchMenuItem = new JMenuItem();
+//        JMenuItem englishMenuItem = new JMenuItem();
+//        languageMenu.add(armenianMenuItem);
+//        languageMenu.add(russianMenuItem);
+//        languageMenu.add(frenchMenuItem);
+//        languageMenu.add(englishMenuItem);
         settingMenu = new JMenu();
         settingMenu.add(languageMenu);
-
-        fileMenu.add(newMenu);
-        fileMenu.add(openMenu);
-        fileMenu.add(saveMenu);
-        fileMenu.add(saveAsMenu);
-        fileMenu.add(exitMenu);
-        english.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                currentLanguage = LanguageMenuItem.ENGLISH;
-                loadMenuBarTexts();
-            }
-        });
-        armenian.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                currentLanguage = LanguageMenuItem.ARMENIAN;
-                loadMenuBarTexts();
-            }
-        });
-        russian.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                currentLanguage = LanguageMenuItem.RUSSIAN;
-                loadMenuBarTexts();
-            }
-        });
-        french.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                currentLanguage = LanguageMenuItem.FRENCH;
-                loadMenuBarTexts();
-            }
-        });
-
-
-        newMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                notepad.newActionHandler(e);
-            }
-        });
-        openMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                notepad.openActionHandler(e);
-            }
-        });
-        saveMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                notepad.saveActionHandler(e);
-            }
-        });
-        saveAsMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                notepad.saveAsActionHandler(e);
-            }
-        });
-        exitMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                notepad.exitActionHandler(e);
-            }
-        });
-
+//        fileMenu.add(newMenuItem);
+//        fileMenu.add(openMenuItem);
+//        fileMenu.add(saveMenuItem);
+//        fileMenu.add(saveAsMenuItem);
+//        fileMenu.add(exitMenuItem);
+//        englishMenuItem.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                currentLanguage = LanguageMenuItem.ENGLISH;
+//                loadMenuBarTexts();
+//            }
+//        });
+//        armenianMenuItem.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                currentLanguage = LanguageMenuItem.ARMENIAN;
+//                loadMenuBarTexts();
+//            }
+//        });
+//        russianMenuItem.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                currentLanguage = LanguageMenuItem.RUSSIAN;
+//                loadMenuBarTexts();
+//            }
+//        });
+//        frenchMenuItem.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                currentLanguage = LanguageMenuItem.FRENCH;
+//                loadMenuBarTexts();
+//            }
+//        });
+//
+//        fileMenu.getItem(0).addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                notepad.newActionHandler(e);
+//            }
+//        });
+//        fileMenu.getItem(1).addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                notepad.openActionHandler(e);
+//            }
+//        });
+//        fileMenu.getItem(2).addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                notepad.saveActionHandler(e);
+//            }
+//        });
+//        fileMenu.getItem(3).addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                notepad.saveAsActionHandler(e);
+//            }
+//        });
+//        fileMenu.getItem(4).addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                notepad.exitActionHandler(e);
+//            }
+//        });
         currentLanguage = DEFAULT_LANGUAGE;
         loadMenuBarTexts();
 
         add(fileMenu);
         add(settingMenu);
     }
+
+    private void createFileMenu(){
+        fileMenu = new JMenu();
+        JMenuItem newMenuItem = new JMenuItem();
+        JMenuItem openMenuItem = new JMenuItem();
+        JMenuItem saveMenuItem = new JMenuItem();
+        JMenuItem saveAsMenuItem = new JMenuItem();
+        JMenuItem exitMenuItem = new JMenuItem();
+        fileMenu.add(newMenuItem);
+        fileMenu.add(openMenuItem);
+        fileMenu.add(saveMenuItem);
+        fileMenu.add(saveAsMenuItem);
+        fileMenu.add(exitMenuItem);
+        newMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                notepad.newActionHandler(e);
+            }
+        });
+        openMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                notepad.openActionHandler(e);
+            }
+        });
+        saveMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                notepad.saveActionHandler(e);
+            }
+        });
+        saveAsMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                notepad.saveAsActionHandler(e);
+            }
+        });
+        exitMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                notepad.exitActionHandler(e);
+            }
+        });
+
+
+    }
+
+    private void createLanguageMenu(){
+        languageMenu = new JMenu();
+        JMenuItem armenianMenuItem = new JMenuItem();
+        JMenuItem russianMenuItem = new JMenuItem();
+        JMenuItem frenchMenuItem = new JMenuItem();
+        JMenuItem englishMenuItem = new JMenuItem();
+        languageMenu.add(armenianMenuItem);
+        languageMenu.add(russianMenuItem);
+        languageMenu.add(frenchMenuItem);
+        languageMenu.add(englishMenuItem);
+        englishMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentLanguage = LanguageMenuItem.ENGLISH;
+                loadMenuBarTexts();
+            }
+        });
+        armenianMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentLanguage = LanguageMenuItem.ARMENIAN;
+                loadMenuBarTexts();
+            }
+        });
+        russianMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentLanguage = LanguageMenuItem.RUSSIAN;
+                loadMenuBarTexts();
+            }
+        });
+        frenchMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentLanguage = LanguageMenuItem.FRENCH;
+                loadMenuBarTexts();
+            }
+        });
+    }
+
 
     private void loadMenuBarTexts () {
         Properties properties = new Properties();
@@ -129,12 +212,11 @@ public class NotepadMenuBar extends JMenuBar {
         } catch (IOException e) {
             e.printStackTrace(); // TODO accurate the handling later
         }
-
         fileMenu.setText(properties.getProperty(NotepadMenu.FILE.getName()));
         settingMenu.setText(properties.getProperty(NotepadMenu.SETTINGS.getName()));
         loadMenuTexts(fileMenu, FileMenuItem.getNames(), properties);
         loadMenuTexts(settingMenu, SettingsMenuItem.getNames(), properties);
-        loadMenuTexts( languageMenu , SettingsMenuItem.getNames(), properties);
+        loadMenuTexts(languageMenu , LanguageMenuItem.getNames(), properties);
     }
 
     private void loadMenuTexts(JMenu menu, String[] keys, Properties properties) {

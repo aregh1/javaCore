@@ -2,6 +2,7 @@ package notepad;
 
 
 import bracechecker.BraceChecker;
+import chapter7.io.fileclass.StreamDemo;
 import notepad.util.UnderlineHighlighter;
 import util.FileUtil;
 
@@ -99,7 +100,7 @@ public class Notepad extends JFrame {
     }
 
 
-    private void newFile() {
+    private void reset() {
         file = null;
         textArea.setText("");
         this.setTitle(DEFAULT_FILENAME + " - Notepad");
@@ -191,7 +192,7 @@ public class Notepad extends JFrame {
                 return;
             }
         }
-        newFile();
+        reset();
     }
 
     @Override
@@ -243,17 +244,9 @@ public class Notepad extends JFrame {
         if (file == null) {
             return saveAsActionHandler(event);
         } else {
-            String filePath = file.getPath();
-            try {
-                Files.delete(file.toPath());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            saveAs(filePath, textArea.getText());
+            StreamDemo.writeFile(textArea.getText(),file);
             return true;
         }
-
-
     }
 
 

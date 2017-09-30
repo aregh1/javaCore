@@ -36,14 +36,11 @@ public class StreamDemo {
 
 	}
 
-	static void writeFile(String content, File file) {
+	public static void writeFile(String content, File file) {
 		OutputStream out = null;
-
 		try {
-			out = new FileOutputStream(file);
-
+			out = new FileOutputStream(file,false);
 			out.write(content.getBytes());
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
