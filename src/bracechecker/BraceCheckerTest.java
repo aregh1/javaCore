@@ -3,8 +3,7 @@ package bracechecker;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import notepad.NotepadMenu;
-import util.ArrayUtil;
+import notepad.NotepadMenuBar;
 
 /**
  * Created by Areg on 3/6/2017.
@@ -16,7 +15,7 @@ public class BraceCheckerTest {
         properties.load(is);
         System.out.println(properties);
 
-        for (NotepadMenu.NotepadMenuItem value: NotepadMenu.NotepadMenuItem.values()) {
+        for (NotepadMenuBar.FileMenuItem value: NotepadMenuBar.FileMenuItem.values()) {
             System.out.println(properties.getProperty(value.getValue() ));
         }
 

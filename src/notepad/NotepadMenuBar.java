@@ -1,7 +1,5 @@
 package notepad;
 
-import bracechecker.BraceCheckerTest;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,26 +7,26 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import static notepad.NotepadMenu.NotepadMenuItem.*;
+import static notepad.NotepadMenuBar.FileMenuItem.*;
 
 /**
  * Created by Areg on 9/23/2017.
  */
-public class NotepadMenu extends JMenuBar {
+public class NotepadMenuBar extends JMenuBar {
     private JMenu fileMenu;
     private Notepad notepad;
     private JMenu settingMenu;
+    private String currentLanguage;
 
 
-    public NotepadMenu(Notepad notepad) throws IOException {
+    public NotepadMenuBar(Notepad notepad) throws IOException {
         this.notepad = notepad;
 
         Properties properties = new Properties();
         InputStream is = NotepadMenu.class.getClassLoader().getResourceAsStream("fileMenu.properties");
         properties.load(is);
 
-        fileMenu = new JMenu(properties.getProperty(FILE.getValue()));
-        settingMenu = new JMenu(properties.getProperty(SETTING.getValue()));
+        loadMenuTexts(this, NotepadMenu.);
         JMenu languageMenu = new JMenu(properties.getProperty(LANGUAGE.getValue()));
         JMenuItem newMenu = new JMenuItem(properties.getProperty(NEW.getValue()));
         JMenuItem openMenu = new JMenuItem(properties.getProperty(OPEN.getValue()));
@@ -61,18 +59,6 @@ public class NotepadMenu extends JMenuBar {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                fileMenu.setText(properties.getProperty(FILE.getValue()));
-                settingMenu.setText(properties.getProperty(SETTING.getValue()));
-                languageMenu.setText(properties.getProperty(LANGUAGE.getValue()));
-                newMenu.setText(properties.getProperty(NEW.getValue()));
-                openMenu.setText(properties.getProperty(OPEN.getValue()));
-                saveMenu.setText(properties.getProperty(SAVE.getValue()));
-                saveAsMenu.setText(properties.getProperty(SAVE_AS.getValue()));
-                exitMenu.setText(properties.getProperty(EXIT.getValue()));
-                armenian.setText(properties.getProperty(ARMENIAN.getValue()));
-                russian.setText(properties.getProperty(RUSSIAN.getValue()));
-                french.setText(properties.getProperty(FRENCH.getValue()));
-                english.setText(properties.getProperty(ENGLISH.getValue()));
             }
         });
         armenian.addActionListener(new ActionListener() {
@@ -85,18 +71,6 @@ public class NotepadMenu extends JMenuBar {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                fileMenu.setText(properties.getProperty(FILE.getValue()));
-                settingMenu.setText(properties.getProperty(SETTING.getValue()));
-                languageMenu.setText(properties.getProperty(LANGUAGE.getValue()));
-                newMenu.setText(properties.getProperty(NEW.getValue()));
-                openMenu.setText(properties.getProperty(OPEN.getValue()));
-                saveMenu.setText(properties.getProperty(SAVE.getValue()));
-                saveAsMenu.setText(properties.getProperty(SAVE_AS.getValue()));
-                exitMenu.setText(properties.getProperty(EXIT.getValue()));
-                armenian.setText(properties.getProperty(ARMENIAN.getValue()));
-                russian.setText(properties.getProperty(RUSSIAN.getValue()));
-                french.setText(properties.getProperty(FRENCH.getValue()));
-                english.setText(properties.getProperty(ENGLISH.getValue()));
             }
         });
         russian.addActionListener(new ActionListener() {
@@ -109,18 +83,6 @@ public class NotepadMenu extends JMenuBar {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                fileMenu.setText(properties.getProperty(FILE.getValue()));
-                settingMenu.setText(properties.getProperty(SETTING.getValue()));
-                languageMenu.setText(properties.getProperty(LANGUAGE.getValue()));
-                newMenu.setText(properties.getProperty(NEW.getValue()));
-                openMenu.setText(properties.getProperty(OPEN.getValue()));
-                saveMenu.setText(properties.getProperty(SAVE.getValue()));
-                saveAsMenu.setText(properties.getProperty(SAVE_AS.getValue()));
-                exitMenu.setText(properties.getProperty(EXIT.getValue()));
-                armenian.setText(properties.getProperty(ARMENIAN.getValue()));
-                russian.setText(properties.getProperty(RUSSIAN.getValue()));
-                french.setText(properties.getProperty(FRENCH.getValue()));
-                english.setText(properties.getProperty(ENGLISH.getValue()));
             }
         });
         french.addActionListener(new ActionListener() {
@@ -133,18 +95,7 @@ public class NotepadMenu extends JMenuBar {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                fileMenu.setText(properties.getProperty(FILE.getValue()));
-                settingMenu.setText(properties.getProperty(SETTING.getValue()));
-                languageMenu.setText(properties.getProperty(LANGUAGE.getValue()));
-                newMenu.setText(properties.getProperty(NEW.getValue()));
-                openMenu.setText(properties.getProperty(OPEN.getValue()));
-                saveMenu.setText(properties.getProperty(SAVE.getValue()));
-                saveAsMenu.setText(properties.getProperty(SAVE_AS.getValue()));
-                exitMenu.setText(properties.getProperty(EXIT.getValue()));
-                armenian.setText(properties.getProperty(ARMENIAN.getValue()));
-                russian.setText(properties.getProperty(RUSSIAN.getValue()));
-                french.setText(properties.getProperty(FRENCH.getValue()));
-                english.setText(properties.getProperty(ENGLISH.getValue()));
+
             }
         });
 
@@ -181,29 +132,151 @@ public class NotepadMenu extends JMenuBar {
         });
     }
 
-    public enum NotepadMenuItem {
-        SETTING("setting"),
-        LANGUAGE("language"),
-        ARMENIAN("armenian"),
-        RUSSIAN("russian"),
-        FRENCH("french"),
-        FILE("file"),
+    private void loadSettingsMenuText(String language) {
+        Properties properties = new Properties();
+        InputStream is = NotepadMenu.class.getClassLoader().getResourceAsStream(language);
+        try {
+            properties.load(is);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        loadMenuTexts(settingMenu, FileMenuItem.getNames(), properties);
+    }
+
+    private void loadLanguageMenuText(String language) {
+        Properties properties = new Properties();
+        InputStream is = NotepadMenu.class.getClassLoader().getResourceAsStream(language);
+        try {
+            properties.load(is);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        loadMenuTexts((JMenu)settingMenu.getMenuComponent(0), FileMenuItem.getNames(), properties);
+    }
+
+    private void loadFileMenuText(String language) {
+        Properties properties = new Properties();
+        InputStream is = NotepadMenu.class.getClassLoader().getResourceAsStream(language);
+        try {
+            properties.load(is);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        loadMenuTexts(fileMenu, FileMenuItem.getNames(), properties);
+    }
+
+    private void loadMenuTexts(JMenu menu, String[] keys, Properties properties) {
+        int i = 0;
+        for (String itemTextKey : keys) {
+            menu.getItem(i++).setText(properties.getProperty(itemTextKey));
+        }
+    }
+
+    public enum FileMenuItem {
         NEW("new"),
         OPEN("open"),
         SAVE("save"),
         SAVE_AS("saveAs"),
-        EXIT("exit"),
+        EXIT("exit");
+
+        FileMenuItem(String value) {
+            this.name = value;
+        }
+
+        public static String[] getNames() {
+            FileMenuItem[] values = values();
+            String[] result = new String[values.length];
+            int i = 0;
+            for (FileMenuItem fileMenuItem : values) {
+                result[i++] = fileMenuItem.getName();
+            }
+            return result;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        private String name;
+    }
+
+    public enum NotepadMenu {
+        FILE("file"),
+        SETTINGS("settings");
+
+        public String getName() {
+            return name;
+        }
+
+        private String name;
+
+        public static String[] getNames() {
+            NotepadMenu[] values = values();
+            String[] result = new String[values.length];
+            int i = 0;
+            for (NotepadMenu notepadMenuItems : values) {
+                result[i++] = notepadMenuItems.getName();
+            }
+            return result;
+        }
+
+        NotepadMenu(String name) {
+            this.name = name;
+        }
+
+    }
+
+    public enum SettingsMenuItem {
+        LANGUAGE("language");
+
+        public String getName() {
+            return name;
+        }
+
+        public static String[] getNames() {
+            SettingsMenuItem[] values = values();
+            String[] result = new String[values.length];
+            int i = 0;
+            for (SettingsMenuItem settingsMenuItem : values) {
+                result[i++] = settingsMenuItem.getName();
+            }
+            return result;
+        }
+
+        SettingsMenuItem(String name) {
+            this.name = name;
+        }
+
+
+        private String name;
+    }
+
+    public enum LanguageMenuItem {
+        ARMENIAN("armenian"),
+        RUSSIAN("russian"),
+        FRENCH("french"),
         ENGLISH("english");
 
-        public String getValue() {
-            return value;
+        public String getName() {
+            return name;
         }
 
-        private String value;
-
-        NotepadMenuItem(String value) {
-            this.value = value;
+        public static String[] getNames() {
+            LanguageMenuItem[] values = values();
+            String[] result = new String[values.length];
+            int i = 0;
+            for (LanguageMenuItem languageMenuItem : values) {
+                result[i++] = languageMenuItem.getName();
+            }
+            return result;
         }
 
+
+        LanguageMenuItem(String name) {
+            this.name = name;
+        }
+
+        private String name;
     }
 }

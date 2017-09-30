@@ -48,7 +48,7 @@ public class Notepad extends JFrame {
         });
 
         add(scrollPane, BorderLayout.CENTER);
-        add(new NotepadMenu(this), BorderLayout.NORTH);
+        add(new NotepadMenuBar(this), BorderLayout.NORTH);
 
         setLocation(0, 0);
         setSize(400, 400);
