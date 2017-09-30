@@ -47,7 +47,6 @@ public class Notepad extends JFrame {
             }
         });
 
-
         add(scrollPane, BorderLayout.CENTER);
         add(new NotepadMenu(this), BorderLayout.NORTH);
 
@@ -68,24 +67,34 @@ public class Notepad extends JFrame {
         Highlighter highlighter = textArea.getHighlighter();
         highlighter.removeAllHighlights();
 
+
         switch (parseResult) {
             case CLOSED_BUT_NOT_OPENED:
-
-                int offset = parseResult.getLastClosedBracket().getIndex();
+                int firstOffset = parseResult.getLastClosedBracket().getIndex();
                 try {
-                    highlighter.addHighlight(offset, offset + 1, painter);
+                    highlighter.addHighlight(firstOffset, firstOffset + 1, painter);
                 } catch (BadLocationException e) {
                     e.printStackTrace();
                 }
                 break;
             case OPENED_BUT_CLOSED_WRONG_BRACKET:
-                //todo something
+                int secondOffset = parseResult.getLastOpenedBracket().getIndex();
+                firstOffset = parseResult.getLastClosedBracket().getIndex();
+                try {
+                    highlighter.addHighlight(firstOffset, firstOffset + 1, painter);
+                    highlighter.addHighlight(secondOffset, secondOffset + 1, painter);
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
                 break;
             case OPENED_BUT_NOT_CLOSED:
-                //todo something
+                try {
+                    secondOffset = parseResult.getLastOpenedBracket().getIndex();
+                    highlighter.addHighlight(secondOffset, secondOffset + 1, painter);
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
                 break;
-            case NO_ERROR:
-
         }
     }
 
@@ -94,7 +103,6 @@ public class Notepad extends JFrame {
         file = null;
         textArea.setText("");
         this.setTitle(DEFAULT_FILENAME + " - Notepad");
-
     }
 
 
