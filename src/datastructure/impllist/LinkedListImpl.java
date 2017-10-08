@@ -23,6 +23,7 @@ public class LinkedListImpl<E> implements LinkedList<E> {
      */
     public E getFirst() {
 
+
         return null;
     }
 
@@ -58,8 +59,8 @@ public class LinkedListImpl<E> implements LinkedList<E> {
     }
 
     private class Link<E> {
-        public E data;
-        public Link<E> next;
+        E data;
+        Link<E> next;
     }
 
     private ListIterator<E> listIterator ;
