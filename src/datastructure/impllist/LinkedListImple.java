@@ -1,4 +1,4 @@
-package tadastructure.impllist;
+package datastructure.impllist;
 
 /**
  * A linked list is a sequence of links with efficient

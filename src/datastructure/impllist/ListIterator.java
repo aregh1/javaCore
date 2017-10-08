@@ -1,4 +1,4 @@
-package tadastructure.impllist;
+package datastructure.impllist;
 
 /**
    A list iterator allows access of a position in a linked list.    This interface contains a subset of the methods of the 

@@ -1,4 +1,4 @@
-package tadastructure.impllist;
+package datastructure.impllist;
 
 
 /**
