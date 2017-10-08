@@ -6,13 +6,13 @@ package datastructure.impllist;
  * contains a subset of the methods of the standard
  * java.util.LinkedList class.
  */
-public class LinkedListImple<E> implements LinkedList<E> {
+public class LinkedListImpl<E> implements LinkedList<E> {
     private Link<E> first;
 
     /**
      * Constructs an empty linked list.
      */
-    public LinkedListImple() {
+    public LinkedListImpl() {
 
     }
 
