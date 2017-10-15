@@ -1,5 +1,7 @@
 package datastructure.impllist;
 
+import java.util.NoSuchElementException;
+
 /**
  * A linked list is a sequence of links with efficient
  * element insertion and removal. This class
@@ -8,12 +10,14 @@ package datastructure.impllist;
  */
 public class LinkedListImpl<E> implements LinkedList<E> {
     private Link<E> first;
+    private ListIterator<E> listIterator;
 
     /**
      * Constructs an empty linked list.
      */
     public LinkedListImpl() {
-
+        first = null;
+        listIterator = null;
     }
 
     /**
@@ -22,9 +26,10 @@ public class LinkedListImpl<E> implements LinkedList<E> {
      * @return the first element in the linked list
      */
     public E getFirst() {
-
-
-        return null;
+        if (first == null) {
+            throw new NoSuchElementException();
+        }
+        return first.data;
     }
 
     /**
@@ -33,8 +38,12 @@ public class LinkedListImpl<E> implements LinkedList<E> {
      * @return the removed element
      */
     public E removeFirst() {
-
-        return null;
+        if (first == null) {
+            throw new NoSuchElementException();
+        }
+        Link<E> oldValue = first;
+        first = first.next;
+        return oldValue.data;
     }
 
     /**
@@ -43,10 +52,7 @@ public class LinkedListImpl<E> implements LinkedList<E> {
      * @param obj the object to add
      */
     public void addFirst(E obj) {
-       if(first == null){
-
-       }
-
+        first = new Link<>(obj, first);
     }
 
     /**
@@ -61,19 +67,24 @@ public class LinkedListImpl<E> implements LinkedList<E> {
     private class Link<E> {
         E data;
         Link<E> next;
+
+        public Link(E data, Link<E> next) {
+            this.data = data;
+            this.next = next;
+        }
     }
 
-    private ListIterator<E> listIterator ;
-
     private class LinkedListIterator implements ListIterator<E> {
-        private Link<E> position = null;
-        private Link<E> previous = null;
+        private Link<E> position;
+        private Link<E> previous;
 
         /**
          * Constructs an iterator that points to the front
          * of the linked list.
          */
         public LinkedListIterator() {
+            position = null;
+            previous = null;
         }
 
         /**
@@ -82,8 +93,12 @@ public class LinkedListImpl<E> implements LinkedList<E> {
          * @return the traversed element
          */
         public E next() {
-
-            return null;
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            previous = position;
+            position = position.next;
+            return previous.data;
         }
 
         /**
@@ -91,12 +106,14 @@ public class LinkedListImpl<E> implements LinkedList<E> {
          * position.
          *
          * @return true if there is an element after the iterator
-         *         position
+         * position
          */
         public boolean hasNext() {
-
-           return false;
-
+            if (position == null){
+                return first != null;
+            }else {
+                return position.next != null;
+            }
         }
 
         /**
@@ -106,7 +123,14 @@ public class LinkedListImpl<E> implements LinkedList<E> {
          * @param obj the object to add
          */
         public void add(E obj) {
-
+            if (position == null){
+                addFirst(obj);
+                position = first;
+            }else {
+                Link<E> newLink = new Link<>(obj,position.next);
+                position = newLink;
+                previous = position;
+            }
         }
 
         /**
@@ -114,7 +138,17 @@ public class LinkedListImpl<E> implements LinkedList<E> {
          * only be called after a call to the next() method.
          */
         public void remove() {
-
+            if (previous == position){
+                throw new IllegalStateException();
+            }
+            if (first == position){
+                removeFirst();
+                position = null;
+            }else{
+                previous.next = position.next;
+                position = previous;
+                previous = position;
+            }
         }
 
         /**
@@ -124,7 +158,10 @@ public class LinkedListImpl<E> implements LinkedList<E> {
          * @param obj the object to set
          */
         public void set(E obj) {
-
+            if(position == null){
+                throw new NoSuchElementException();
+            }
+            position.data = obj;
         }
     }
 }

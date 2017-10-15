@@ -21,95 +21,14 @@ public class NotepadMenuBar extends JMenuBar {
     private JMenu languageMenu;
     private LanguageMenuItem currentLanguage;
 
-
     public NotepadMenuBar(Notepad notepad) throws IOException {
         this.notepad = notepad;
+        //Creating menus
         createFileMenu();
         createLanguageMenu();
-//        fileMenu = new JMenu();
-//        JMenuItem newMenuItem = new JMenuItem();
-//        JMenuItem openMenuItem = new JMenuItem();
-//        JMenuItem saveMenuItem = new JMenuItem();
-//        JMenuItem saveAsMenuItem = new JMenuItem();
-//        JMenuItem exitMenuItem = new JMenuItem();
-
-
-        //Language subMenu
-//        languageMenu = new JMenu();
-//        JMenuItem armenianMenuItem = new JMenuItem();
-//        JMenuItem russianMenuItem = new JMenuItem();
-//        JMenuItem frenchMenuItem = new JMenuItem();
-//        JMenuItem englishMenuItem = new JMenuItem();
-//        languageMenu.add(armenianMenuItem);
-//        languageMenu.add(russianMenuItem);
-//        languageMenu.add(frenchMenuItem);
-//        languageMenu.add(englishMenuItem);
         settingMenu = new JMenu();
         settingMenu.add(languageMenu);
-//        fileMenu.add(newMenuItem);
-//        fileMenu.add(openMenuItem);
-//        fileMenu.add(saveMenuItem);
-//        fileMenu.add(saveAsMenuItem);
-//        fileMenu.add(exitMenuItem);
-//        englishMenuItem.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                currentLanguage = LanguageMenuItem.ENGLISH;
-//                loadMenuBarTexts();
-//            }
-//        });
-//        armenianMenuItem.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                currentLanguage = LanguageMenuItem.ARMENIAN;
-//                loadMenuBarTexts();
-//            }
-//        });
-//        russianMenuItem.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                currentLanguage = LanguageMenuItem.RUSSIAN;
-//                loadMenuBarTexts();
-//            }
-//        });
-//        frenchMenuItem.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                currentLanguage = LanguageMenuItem.FRENCH;
-//                loadMenuBarTexts();
-//            }
-//        });
-//
-//        fileMenu.getItem(0).addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                notepad.newActionHandler(e);
-//            }
-//        });
-//        fileMenu.getItem(1).addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                notepad.openActionHandler(e);
-//            }
-//        });
-//        fileMenu.getItem(2).addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                notepad.saveActionHandler(e);
-//            }
-//        });
-//        fileMenu.getItem(3).addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                notepad.saveAsActionHandler(e);
-//            }
-//        });
-//        fileMenu.getItem(4).addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                notepad.exitActionHandler(e);
-//            }
-//        });
+//        Loading menu bar texts by currentLanguage
         currentLanguage = DEFAULT_LANGUAGE;
         loadMenuBarTexts();
 
@@ -202,7 +121,6 @@ public class NotepadMenuBar extends JMenuBar {
             }
         });
     }
-
 
     private void loadMenuBarTexts () {
         Properties properties = new Properties();
