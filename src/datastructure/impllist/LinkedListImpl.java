@@ -10,14 +10,14 @@ import java.util.NoSuchElementException;
  */
 public class LinkedListImpl<E> implements LinkedList<E> {
     private Link<E> first;
-    private ListIterator<E> listIterator;
+//    private ListIterator<E> listIterator;
 
     /**
      * Constructs an empty linked list.
      */
     public LinkedListImpl() {
         first = null;
-        listIterator = null;
+//        listIterator = null;
     }
 
     /**
@@ -96,9 +96,15 @@ public class LinkedListImpl<E> implements LinkedList<E> {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            previous = position;
-            position = position.next;
-            return previous.data;
+            if(position == null) {
+                position = first;
+                return position.data;
+
+            } else {
+                previous = position;
+                position = position.next;
+                return position.data;
+            }
         }
 
         /**
@@ -123,13 +129,14 @@ public class LinkedListImpl<E> implements LinkedList<E> {
          * @param obj the object to add
          */
         public void add(E obj) {
-            if (position == null){
+            if (position == null) {
                 addFirst(obj);
                 position = first;
-            }else {
-                Link<E> newLink = new Link<>(obj,position.next);
-                position = newLink;
+
+            } else {
                 previous = position;
+                position = new Link<>(obj, position.next);
+                previous.next = position;
             }
         }
 
@@ -144,7 +151,7 @@ public class LinkedListImpl<E> implements LinkedList<E> {
             if (first == position){
                 removeFirst();
                 position = null;
-            }else{
+            } else {
                 previous.next = position.next;
                 position = previous;
                 previous = position;

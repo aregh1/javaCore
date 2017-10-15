@@ -67,8 +67,6 @@ public class Notepad extends JFrame {
         UnderlineHighlighter.UnderlineHighlightPainter painter = new UnderlineHighlighter.UnderlineHighlightPainter(Color.RED);
         Highlighter highlighter = textArea.getHighlighter();
         highlighter.removeAllHighlights();
-
-
         switch (parseResult) {
             case CLOSED_BUT_NOT_OPENED:
                 int firstOffset = parseResult.getLastClosedBracket().getIndex();
@@ -211,7 +209,6 @@ public class Notepad extends JFrame {
                         save();
                         System.exit(0);
                         break;
-
                 }
             }
             super.processWindowEvent(e);
