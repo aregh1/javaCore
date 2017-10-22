@@ -1,5 +1,7 @@
 package datastructure.set;
 
+import datastructure.Student;
+
 import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -45,47 +47,3 @@ public class TreeSetDemo {
 
 }
 
-class Student {
-    private String Name;
-    private String Surname;
-    private int averageGrade;
-
-    public Student(String name, String surname, int averageGrade) {
-        Name = name;
-        Surname = surname;
-        this.averageGrade = averageGrade;
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String name) {
-        Name = name;
-    }
-
-    public String getSurname() {
-        return Surname;
-    }
-
-    public void setSurname(String surname) {
-        Surname = surname;
-    }
-
-    public int getAverageGrade() {
-        return averageGrade;
-    }
-
-    public void setAverageGrade(int averageGrade) {
-        this.averageGrade = averageGrade;
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "Name='" + Name + '\'' +
-                ", Surname='" + Surname + '\'' +
-                ", averageGrade=" + averageGrade +
-                '}';
-    }
-}
