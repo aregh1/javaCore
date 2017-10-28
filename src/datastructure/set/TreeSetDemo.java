@@ -9,9 +9,7 @@ import java.util.TreeSet;
 public class TreeSetDemo {
 
 
-
     public static void main(String[] args) {
-
         Set<Student> students = new TreeSet<>(new StudentComparator());
         students.add(new Student("Areg", "Hakobyan", 99));
         students.add(new Student("Narek", "Hakobyan", 100));
@@ -26,24 +24,49 @@ public class TreeSetDemo {
     }
 
     private static class StudentComparator implements Comparator<Student> {
+        private StudentComparatorMode studentComparatormode;
 
+        public StudentComparator() {
+            studentComparatormode = StudentComparatorMode.BYNAME;
+        }
+
+        public StudentComparator(StudentComparatorMode studentComparatormode) {
+            this.studentComparatormode = studentComparatormode;
+        }
 
         @Override
         public int compare(Student s1, Student s2) {
-            if(!s1.getName().equals(s2.getName())){
-                return s1.getName().compareTo(s2.getName());
-            }
-
-            if(!s1.getSurname().equals(s2.getSurname())){
-                return s1.getName().compareTo(s2.getSurname());
-            }
-//            else if(s1.getAverageGrade() != (s2.getAverageGrade())) {
-                return Integer.compare(s1.getAverageGrade(), s2.getAverageGrade());
+//            if (!s1.getName().equals(s2.getName())) {
+//                return s1.getName().compareTo(s2.getName());
 //            }
+//
+//            if (!s1.getSurname().equals(s2.getSurname())) {
+//                return s1.getName().compareTo(s2.getSurname());
+//            }
+////            else if(s1.getAverageGrade() != (s2.getAverageGrade())) {
+//            return Integer.compare(s1.getAverageGrade(), s2.getAverageGrade());
+////            }
+            int result = compareByMode(studentComparatormode, s1, s2);
+            return result;
+        }
 
+        private int compareByMode(StudentComparatorMode mode, Student s1, Student s2) {
+            switch (mode) {
+                case BYAVERAGEGRADE:
+                    return Integer.compare(s1.getAverageGrade(), s2.getAverageGrade());
+                case BYNAME:
+                    return s1.getName().compareTo(s2.getName());
+                case BYSURNAME:
+                    return s1.getName().compareTo(s2.getSurname());
+            }
+            return 0;
+        }
+
+        static enum StudentComparatorMode {
+            BYNAME,
+            BYSURNAME,
+            BYAVERAGEGRADE,;
         }
     }
-
-
 }
 
