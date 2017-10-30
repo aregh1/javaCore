@@ -2,6 +2,7 @@ package datastructure.set;
 
 import datastructure.Student;
 
+import java.security.InvalidParameterException;
 import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -46,20 +47,20 @@ public class TreeSetDemo {
 ////            else if(s1.getAverageGrade() != (s2.getAverageGrade())) {
 //            return Integer.compare(s1.getAverageGrade(), s2.getAverageGrade());
 ////            }
-            int result = compareByMode(studentComparatormode, s1, s2);
-            return result;
+            return compareByMode(s1, s2);
         }
 
-        private int compareByMode(StudentComparatorMode mode, Student s1, Student s2) {
-            switch (mode) {
+        private int compareByMode(Student s1, Student s2) {
+            switch (studentComparatormode) {
                 case BYAVERAGEGRADE:
                     return Integer.compare(s1.getAverageGrade(), s2.getAverageGrade());
                 case BYNAME:
                     return s1.getName().compareTo(s2.getName());
                 case BYSURNAME:
                     return s1.getName().compareTo(s2.getSurname());
+                default:
+                    throw new InvalidParameterException();// todo: Add relevant message
             }
-            return 0;
         }
 
         static enum StudentComparatorMode {
